@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <?php $titleName = 'MovieRate' ?>
 <?php require_once __DIR__ . "/../config/db.php"; ?>
 

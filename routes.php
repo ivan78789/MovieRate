@@ -7,6 +7,9 @@ get('/movie', 'include/movie.php');
 get('/movieRate', 'pages/MovieRate.php');
 get('/Profile', 'pages/profile/profile.php');
 
+get('/AddMovie', 'pages/pages/movie/add.php');
+get('/EdirMovie', 'pages/movie/edit.php');
+
 get('/signin', 'auth/sign-in.php');
 post('/signin', 'auth/sign-in.php');
 

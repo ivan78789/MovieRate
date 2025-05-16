@@ -1,32 +1,29 @@
 <?php
-
-require_once "./config/function.php";
+require_once __DIR__ . '/../config/function.php';
 
 if (isset($_POST['logout'])) {
     session_destroy();
     redirect_to('/');
 }
-
-
 ?>
+
 <header class="header container">
     <div class="header__logo">
-        <img src="./assets/img/svg/logo.svg" alt="Organic Logo">
-        <a href="./index.php">Organic</a>
+        <img src="/assets/img/svg/logo.svg" alt="Organic Logo">
+        <a href="/">Organic</a>
     </div>
     <nav class="header__nav">
-        <a href="/" class="header__link">Home</a>
+        <a href="/">Главная</a>
         <a href="/about" class="header__link">About</a>
-        <!-- выпадающее меню -->
+
         <div class="header__link_dropdown">
             <button class="header__link" id="drop-down_page">
                 <span class="header-dropdawn_pages">
                     Pages
-                    <img class="arrow-pages" id="drop-down_arrow" src="./assets/img/svg/icon-arrow.svg"
+                    <img class="arrow-pages" id="drop-down_arrow" src="/assets/img/svg/icon-arrow.svg"
                         alt="Dropdown Arrow">
                 </span>
             </button>
-
             <div class="drop-down hidden" id="drop-down_menu">
                 <div class="drop-down-content">
                     <a href="/licenses">Licenses</a>
@@ -35,24 +32,30 @@ if (isset($_POST['logout'])) {
                 </div>
             </div>
         </div>
-        <a href="/movie" class="header__link">Shop</a>
-        <a href="/movie" class="header__link">Projects</a>
-        <a href="/movie" class="header__link">News</a>
-    </nav>
-    <div class="header__nav-search-btn">
 
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <a href="/Profile">Профиль</a>
+            <a href="/logout">Выйти</a>
+        <?php else: ?>
+            <a href="/signin">Войти</a>
+            <a href="/signup">Зарегистрироваться</a>
+        <?php endif; ?>
+    </nav>
+
+    <div class="header__nav-search-btn">
         <form action="/search" method="GET" class="header__nav-search">
             <input type="text" name="query" class="header__input" placeholder="Search...">
             <button type="submit" class="header__input-btn">
-                <img src="assets/img/svg/serch.svg" alt="search_icon">
+                <img src="/assets/img/svg/serch.svg" alt="search_icon">
             </button>
         </form>
 
-
         <div class="basket_nav">
-            <a href="/basket"> <span class="basket">
-                    <img src="assets/img/svg/basket.svg" alt="Basket Icon"> Cart (0)
-                </span></a>
+            <a href="/basket">
+                <span class="basket">
+                    <img src="/assets/img/svg/basket.svg" alt="Basket Icon"> Cart (0)
+                </span>
+            </a>
         </div>
     </div>
 </header>

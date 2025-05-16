@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script>
     // Так как дублируются стили и жс будет это все здесь
     (function () {
+        ёё
         const passwordInput = document.getElementById('password');
         const toggleBtn = document.getElementById('toggle-button');
         const eyeIcon = document.getElementById('eye-icon');
