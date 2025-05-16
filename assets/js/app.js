@@ -67,4 +67,20 @@ if (DropDownArrow.classList.contains('rotate-back')){ // если есть кл�
  // ?-если активен, то true, :-иначе false
 });
 
+// просмотр пароля
+
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('toggle-button');
+    const eyeIcon = document.getElementById('eye-icon');
+    let isVisible = false;
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+            isVisible = !isVisible;
+            passwordInput.type = isVisible ? 'text' : 'password';
+            eyeIcon.src = isVisible ? '/assets/img/svg/eye.svg' : '/assets/img/svg/closed-eye.svg';
+            eyeIcon.alt = isVisible ? 'Скрыть пароль' : 'Показать пароль';
+        });
+    }
+
 

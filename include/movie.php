@@ -16,7 +16,7 @@ $movies = $MovieController->getAllMovies();
 <?php require_once "./layout/header.php"; ?>
 <?php require_once "./layout/nav.php"; ?>
 
-<div class=" container">
+<div class="container">
     <div class="movie">
         <div class="movie__grid">
             <?php foreach ($movies as $movie): ?>
@@ -42,7 +42,9 @@ $movies = $MovieController->getAllMovies();
                         </div>
                     </div>
                 </a>
+
             <?php endforeach; ?>
         </div>
     </div>
-    </d>
+</div>
+<?php require_once "./layout/footer.php"; ?>
