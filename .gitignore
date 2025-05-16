@@ -1,0 +1,64 @@
+# === PHP ===
+*.log
+*.cache
+*.tmp
+*.bak
+*.swp
+
+# Исключить чувствительные файлы
+.env
+.env.*
+# Убрали игнор config/db.php чтобы добавить этот файл в Git
+
+# === Composer (если будешь использовать) ===
+vendor/
+composer.lock
+
+# === Node (если вдруг добавишь frontend tools) ===
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# === VS Code ===
+.vscode/
+.history/
+
+# === ОС системные ===
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.stackdump
+
+# === Docker ===
+docker-compose.override.yml
+*.pid
+
+# === Базы данных и дампы ===
+*.sql
+*.sqlite
+*.db
+*.tar.gz
+*.gz
+
+# === Кэш браузеров и локальные данные ===
+.idea/
+.cache/
+*.local
+
+# === Разное ===
+*.zip
+*.rar
+*.7z
+*.bak
+*.old
+*.orig
+
+# === Тесты и временные файлы ===
+coverage/
+.phpunit.result.cache
+phpunit.xml
+
+# === Логи и временные папки ===
+logs/
+temp/
+tmp/
