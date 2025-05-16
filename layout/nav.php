@@ -41,13 +41,13 @@ if (isset($_POST['logout'])) {
     </nav>
     <div class="header__nav-search-btn">
 
-        <div class="header__nav-search">
+        <form action="/search" method="GET" class="header__nav-search">
+            <input type="text" name="query" class="header__input" placeholder="Search...">
+            <button type="submit" class="header__input-btn">
+                <img src="assets/img/svg/serch.svg" alt="search_icon">
+            </button>
+        </form>
 
-            <input type="text" class="header__input" placeholder="">
-            <a href=""></a><button class="header__input-btn"><img src="assets\img\svg\serch.svg"
-                    alt="serch_icon"></button>
-
-        </div>
 
         <div class="basket_nav">
             <a href="/basket"> <span class="basket">
