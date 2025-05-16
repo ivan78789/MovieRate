@@ -1,6 +1,11 @@
 <?php
 
+require_once "./config/function.php";
 
+if (isset($_POST['logout'])) {
+    session_destroy();
+    redirect_to('/');
+}
 
 
 ?>

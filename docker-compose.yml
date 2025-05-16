@@ -5,8 +5,20 @@ services:
     build: .
     ports:
       - "80:80"
+    volumes:
+      - ./:/var/www/html
     depends_on:
       - db
+    develop:
+      watch:
+        - action: sync
+          path: ./MovieRate
+          target: /var/www/html
+          ignore:
+            - node_modules/
+            - vendor/
+        - action: rebuild
+          path: Dockerfile
 
   db:
     image: mysql:8.0

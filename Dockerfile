@@ -1,10 +1,10 @@
 FROM php:8.2-apache
 
-RUN docker-php-ext-install mysqli
+# Включаем mod_rewrite, если нужно
 RUN a2enmod rewrite
 
-COPY . /var/www/html
+# Устанавливаем расширения для работы с MySQL через PDO:
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Установка прав
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+# (опционально) Проверяем, что модуль загружен
+RUN docker-php-ext-enable pdo_mysql
