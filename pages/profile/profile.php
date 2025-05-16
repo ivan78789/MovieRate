@@ -10,4 +10,4 @@ $username = $_SESSION['username'];
 <h2>Личный кабинет</h2>
 <p>Привет, <?= htmlspecialchars($username) ?>!</p>
 <a href="/">На Главный</a>
-<a href="/logout">Выйти</a>
+<a href="/signin">Выйти</a>

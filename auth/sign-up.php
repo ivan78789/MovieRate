@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/db.php'; // Подключение к базе данных
+require_once __DIR__ . '/../config/db.php';
 
 $errors = [];
 
@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: /signin');
             exit();
         } catch (PDOException $e) {
-            // Проверяем код ошибки на дублирование email
 
         }
     }
