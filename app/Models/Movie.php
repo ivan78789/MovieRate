@@ -50,5 +50,11 @@ class Movie
         $stmt = $this->conn->prepare("DELETE FROM movies WHERE id = ?");
         return $stmt->execute([$id]);
     }
+    public function update($id)
+    {
+        $stmt = $this->conn->prepare("UPDATE movies SET title = ?, genre = ?, year = ?, description = ?, poster_path = ? WHERE id = ?");
+        return $stmt->execute([$this->title, $this->genre, $this->year, $this->description, $this->poster_path, $id]);
+    }
+
 }
 

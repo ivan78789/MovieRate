@@ -25,6 +25,8 @@ if (!$user) {
 $username = htmlspecialchars($user['username']);
 $isAdmin = (bool) $user['is_admin'];
 ?>
+<?php $titleName = 'Profile' ?>
+<?php $titlePage = 'Личный кабинет' ?>
 <?php require_once "./layout/header.php"; ?>
 <?php require_once "./layout/nav.php"; ?>
 

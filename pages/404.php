@@ -1,3 +1,6 @@
+<?php
+$titleName = "404";
+?>
 <html>
 
 <head>

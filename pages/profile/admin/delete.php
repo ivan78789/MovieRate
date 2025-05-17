@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 if (!isset($_SESSION['user'])) {
   header('Location: /login');
   exit();
@@ -12,4 +12,4 @@ include "layout/head.php";
 <main>
 
 </main>
-<?php include "layout/footer.php"; ?>
+<?php include "layout/footer.php"; ?> -->

@@ -11,7 +11,7 @@ $MovieController = new MovieController($MovieModel);
 $movies = $MovieController->getAllMovies();
 ?>
 
-~
+
 <?php $titleName = "Movies"; ?>
 <?php require_once "./layout/header.php"; ?>
 <?php require_once "./layout/nav.php"; ?>
@@ -20,7 +20,7 @@ $movies = $MovieController->getAllMovies();
     <div class="movie">
         <div class="movie__grid">
             <?php foreach ($movies as $movie): ?>
-                <a href="/pages/movie/view.php?id=<?= $movie['id'] ?>" class="movie__item">
+                <a href="/movieView?id=<?= htmlspecialchars($movie['id']) ?>" class="movie__item">
                     <div class="movie__image">
                         <img src="<?= htmlspecialchars($movie['poster_path']) ?>"
                             alt="<?= htmlspecialchars($movie['title']) ?>" class="movie__img">
@@ -49,7 +49,3 @@ $movies = $MovieController->getAllMovies();
     </div>
 </div>
 <?php require_once "./layout/footer.php"; ?>
-
-<style>
-
-</style>

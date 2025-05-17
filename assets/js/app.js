@@ -81,6 +81,11 @@ if (DropDownArrow.classList.contains('rotate-back')){ // если есть кл�
             eyeIcon.src = isVisible ? '/assets/img/svg/eye.svg' : '/assets/img/svg/closed-eye.svg';
             eyeIcon.alt = isVisible ? 'Скрыть пароль' : 'Показать пароль';
         });
-    }
+    };
 
+
+
+
+  // для фильмов рейтинги и комментарии
+  const  Rating = document.getElementById
 

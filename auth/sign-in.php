@@ -55,7 +55,7 @@ if (isset($_POST['login'])) {
         </button>
     </div>
     <button type="submit" name="login" class="btn-primary">Войти</button>
-    <p class="auth-link">Нет аккаунта? <a href="/auth/sign-up.php">Зарегистрироваться</a></p>
+    <p class="auth-link">Нет аккаунта? <a href="/signup">Зарегистрироваться</a></p>
 </form>
 
 <script>
