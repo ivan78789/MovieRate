@@ -29,17 +29,17 @@ $movies = $MovieController->getAllMovies();
                         <h3 class="movie__title" title="<?= htmlspecialchars($movie['title']) ?>">
                             <?= htmlspecialchars($movie['title']) ?>
                         </h3>
-                        <span class="movie__type"><?= htmlspecialchars($movie['genre']) ?></span>
+                        <span class="movie__type">Жанр: <?= htmlspecialchars($movie['genre']) ?></span>
                     </div>
                     <div class="movie__desc-wrap">
                         <div class="movie__desc" title="<?= htmlspecialchars($movie['description']) ?>">
                             <?= htmlspecialchars($movie['description']) ?>
                         </div>
                         <div class="movie__year">
-                            <span class="movie__year-text"><?= htmlspecialchars($movie['year']) ?></span>
+                            <span class="movie__year-text">Год: <?= htmlspecialchars($movie['year']) ?></span>
                         </div>
                         <div class="created_movie">
-                            <span class="created_movie_text">Создано: <?= htmlspecialchars($movie['created_by']) ?></span>
+                            <span class="created_movie_text">Создал: <?= htmlspecialchars($movie['created_by']) ?></span>
                             <span class="created_movie_text">Дата: <?= htmlspecialchars($movie['created_at']) ?></span>
                         </div>
                     </div>
@@ -49,3 +49,7 @@ $movies = $MovieController->getAllMovies();
     </div>
 </div>
 <?php require_once "./layout/footer.php"; ?>
+
+<style>
+
+</style>

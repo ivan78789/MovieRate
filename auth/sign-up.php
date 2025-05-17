@@ -2,10 +2,7 @@
 session_start();
 require_once __DIR__ . '/../config/db.php';
 
-$errors = [];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Получаем и очищаем данные из формы
     $email = trim($_POST['email'] ?? '');
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
@@ -17,36 +14,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Неверный формат email.';
     } elseif (mb_strlen($password, 'UTF-8') < 8) {
         $errors[] = 'Пароль должен содержать не менее 8 символов.';
+    } else {
+        // Проверка на дублирующийся email
+        $checkStmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+        $checkStmt->execute([':email' => $email]);
+        $emailExists = $checkStmt->fetchColumn();
+
+        if ($emailExists) {
+            $errors[] = 'Пользователь с таким email уже зарегистрирован.';
+        }
     }
 
     if (empty($errors)) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-
-        // Подготавливаем и выполняем запрос
         $stmt = $conn->prepare("INSERT INTO users (email, username, password) VALUES (:email, :username, :password)");
+
         try {
             $stmt->execute([
                 ':email' => $email,
                 ':username' => $username,
                 ':password' => $hash
             ]);
-            // Сохраняем ID пользователя в сессии и перенаправляем
             $_SESSION['user_id'] = $conn->lastInsertId();
             header('Location: /signin');
             exit();
         } catch (PDOException $e) {
-
+            // Не дублируем ошибку, если мы уже проверили email
+            $errors[] = 'Произошла ошибка при регистрации. Попробуйте позже.';
         }
     }
 }
 ?>
-<?php if (!empty($errors)): ?>
-    <ul class="auth-errors">
-        <?php foreach ($errors as $error): ?>
-            <li><?= htmlspecialchars($error) ?></li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+
 
 <form action="/signup" method="post" class="auth-form">
     <h2 class="auth-title">Регистрация</h2>
@@ -60,30 +59,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <div class="form-group password-field">
         <label for="password">Пароль</label>
+
         <input type="password" name="password" id="password" placeholder="Пароль" required>
         <button type="button" id="toggle-button" tabindex="-1">
             <img id="eye-icon" src="/assets/img/svg/closed-eye.svg" alt="Показать пароль">
         </button>
     </div>
+    <?php if (!empty($errors)): ?>
+        <ul class="auth-errors">
+            <?php foreach ($errors as $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
     <button type="submit" class="btn-primary">Зарегистрироваться</button>
     <p class="auth-link">Уже есть аккаунт? <a href="/auth/sign-in.php">Войти</a></p>
 </form>
 
 <script>
-    // Так как дублируются стили и жс будет это все здесь
     (function () {
-        ёё
         const passwordInput = document.getElementById('password');
         const toggleBtn = document.getElementById('toggle-button');
         const eyeIcon = document.getElementById('eye-icon');
         let isVisible = false;
-
         if (toggleBtn && passwordInput && eyeIcon) {
             toggleBtn.addEventListener('click', function (e) {
                 e.preventDefault();
                 isVisible = !isVisible;
                 passwordInput.type = isVisible ? 'text' : 'password';
-                eyeIcon.src = isVisible ? '/assets/img/svg/eye.svg' : ' /assets/img/svg/closed-eye.svg';
+                eyeIcon.src = isVisible ? '/assets/img/svg/closed-eye.svg' : '/assets/img/svg/eye.svg';
                 eyeIcon.alt = isVisible ? 'Скрыть пароль' : 'Показать пароль';
             });
         }

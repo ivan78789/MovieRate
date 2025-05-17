@@ -9,11 +9,11 @@ if (isset($_POST['logout'])) {
 
 <header class="header container">
     <div class="header__logo">
-        <img src="/assets/img/svg/logo.svg" alt="Organic Logo">
-        <a href="/">Organic</a>
+        <img src="/assets/img/svg/logo.svg " class="header__link" alt="Organic Logo">
+        <a href="/" class="header__link">Organic</a>
     </div>
     <nav class="header__nav">
-        <a href="/">Главная</a>
+        <a href="/" class="header__link">Главная</a>
         <a href="/about" class="header__link">About</a>
 
         <div class="header__link_dropdown">
@@ -34,11 +34,11 @@ if (isset($_POST['logout'])) {
         </div>
 
         <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="/Profile">Профиль</a>
-            <a href="/logout">Выйти</a>
+            <a href="/Profile" class="header__link">Профиль</a>
+            <a href="/logout" class="header__link">Выйти</a>
         <?php else: ?>
-            <a href="/signin">Войти</a>
-            <a href="/signup">Зарегистрироваться</a>
+            <a href="/signin " class="header__link">Войти</a>
+            <a href="/signup" class="header__link">Зарегистрироваться</a>
         <?php endif; ?>
     </nav>
 

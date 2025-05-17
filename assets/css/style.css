@@ -242,214 +242,7 @@
 
 /* вход */
 
-.auth-form {
-  max-width: 350px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  padding: 32px 28px 24px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.auth-title {
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #222;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  position: relative;
-}
-
-.form-group label {
-  font-size: 0.98rem;
-  color: #444;
-  margin-bottom: 2px;
-}
-
-.form-group input {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 1rem;
-  background: #f9fafb;
-  transition: border 0.2s;
-}
-
-.form-group input:focus {
-  border: 1.5px solid #4f8cff;
-  outline: none;
-  background: #fff;
-}
-
-.password-field button {
-  position: absolute;
-  right: 10px;
-  top: 34px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.password-field img {
-  width: 22px;
-  height: 22px;
-}
-
-.btn-primary {
-  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 0;
-  font-size: 1.08rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 8px;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
-}
-
-.auth-link {
-  text-align: center;
-  font-size: 0.98rem;
-  margin-top: 8px;
-}
-
-.auth-link a {
-  color: #4f8cff;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.auth-link a:hover {
-  text-decoration: underline;
-}
-/* сайн ап */
-
-.auth-form {
-  max-width: 350px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  padding: 32px 28px 24px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.auth-title {
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #222;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  position: relative;
-}
-
-.form-group label {
-  font-size: 0.98rem;
-  color: #444;
-  margin-bottom: 2px;
-}
-
-.form-group input {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 1rem;
-  background: #f9fafb;
-  transition: border 0.2s;
-}
-
-.form-group input:focus {
-  border: 1.5px solid #4f8cff;
-  outline: none;
-  background: #fff;
-}
-
-.password-field button {
-  position: absolute;
-  right: 10px;
-  top: 34px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.password-field img {
-  width: 22px;
-  height: 22px;
-}
-
-.btn-primary {
-  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 0;
-  font-size: 1.08rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 8px;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
-}
-
-.auth-link {
-  text-align: center;
-  font-size: 0.98rem;
-  margin-top: 8px;
-}
-
-.auth-link a {
-  color: #4f8cff;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.auth-link a:hover {
-  text-decoration: underline;
-}
-
-.auth-errors {
-  max-width: 350px;
-  margin: 10px auto 0 auto;
-  padding: 0 18px;
-  color: #d32f2f;
-  font-size: 0.98rem;
-  list-style: disc inside;
-}
-
 /* для фильмов верстка */
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -466,19 +259,20 @@
   display: flex;
   flex-direction: column;
   background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   text-decoration: none;
   color: #222;
   transition: box-shadow 0.2s, transform 0.2s;
   min-height: 420px;
   position: relative;
+  border: 2px solid #e5e7eb;
 }
 
 .movie__item:hover {
-  box-shadow: 0 8px 32px rgba(79, 140, 255, 0.13);
-  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(79, 140, 255, 0.15);
+  transform: translateY(-4px) scale(1.025);
 }
 
 .movie__image {
@@ -496,6 +290,11 @@
   height: 100%;
   object-fit: cover;
   border-bottom: 1px solid #e5e7eb;
+  transition: transform 0.3s;
+}
+
+.movie__item:hover .movie__img {
+  transform: scale(1.04);
 }
 
 .movie__info {
@@ -507,11 +306,12 @@
 
 .movie__title {
   font-size: 1.18rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #2356c7;
 }
 
 .movie__type {
@@ -572,5 +372,95 @@
 
   .container {
     padding: 16px 4px 24px 4px;
+  }
+}
+/* личный кабинет */
+
+body {
+  background: #f6f8fa;
+  font-family: "Open Sans", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-container {
+  max-width: 420px;
+  margin: 48px auto 0 auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 36px 32px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.profile-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2356c7;
+  margin-bottom: 8px;
+}
+
+.profile-hello {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.profile-role {
+  text-align: center;
+  font-size: 1rem;
+  color: #4f8cff;
+  margin-bottom: 12px;
+}
+
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.profile-actions a {
+  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
+  color: #fff;
+  border-radius: 6px;
+  padding: 10px 0;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.05rem;
+  transition: background 0.2s;
+}
+
+.profile-actions a:hover {
+  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
+}
+
+.profile-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+.profile-links a {
+  color: #2356c7;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.profile-links a:hover {
+  color: #4f8cff;
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 18px 6px 18px 6px;
   }
 }
