@@ -20,18 +20,20 @@ $movies = $MovieController->getAllMovies();
     <div class="movie">
         <div class="movie__grid">
             <?php foreach ($movies as $movie): ?>
-                <a href="/movie/<?= $movie['id'] ?>" class="movie__item">
+                <a href="/pages/movie/view.php?id=<?= $movie['id'] ?>" class="movie__item">
                     <div class="movie__image">
                         <img src="<?= htmlspecialchars($movie['poster_path']) ?>"
                             alt="<?= htmlspecialchars($movie['title']) ?>" class="movie__img">
                     </div>
                     <div class="movie__info">
-                        <h3 class="movie__title"><?= htmlspecialchars($movie['title']) ?></h3>
+                        <h3 class="movie__title" title="<?= htmlspecialchars($movie['title']) ?>">
+                            <?= htmlspecialchars($movie['title']) ?>
+                        </h3>
                         <span class="movie__type"><?= htmlspecialchars($movie['genre']) ?></span>
                     </div>
-                    <div>
-                        <div class="movie_desk">
-                            <p><?= htmlspecialchars($movie['description']) ?></p>
+                    <div class="movie__desc-wrap">
+                        <div class="movie__desc" title="<?= htmlspecialchars($movie['description']) ?>">
+                            <?= htmlspecialchars($movie['description']) ?>
                         </div>
                         <div class="movie__year">
                             <span class="movie__year-text"><?= htmlspecialchars($movie['year']) ?></span>
@@ -42,7 +44,6 @@ $movies = $MovieController->getAllMovies();
                         </div>
                     </div>
                 </a>
-
             <?php endforeach; ?>
         </div>
     </div>
