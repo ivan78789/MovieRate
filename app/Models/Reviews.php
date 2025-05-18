@@ -23,6 +23,15 @@ class Reviews
     {
         return $this->conn;
     }
+    // метод для получения всех общей оценки
+    public function getAverageRatingByMovieId($movieId)
+    {
+        $stmt = $this->conn->prepare("SELECT AVG(rating) as average_rating FROM reviews WHERE movie_id = :movie_id");
+        $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return round($result['average_rating'], 1);
+    }
 
     public function getAll()
     {
@@ -64,6 +73,29 @@ class Reviews
         $stmt = $this->conn->prepare("SELECT * FROM reviews WHERE movie_id = ?");
         $stmt->execute([$movieId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    public function getById(int $id): ?array
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM reviews WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->conn->prepare("DELETE FROM reviews WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    public function update(int $id, int $rating, string $comment): bool
+    {
+        $stmt = $this->conn->prepare("UPDATE reviews SET rating = :rating, comment = :comment WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':rating', $rating);
+        $stmt->bindParam(':comment', $comment);
+        return $stmt->execute();
     }
 
 }

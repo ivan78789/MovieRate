@@ -30,6 +30,7 @@ $movies = $MovieController->getAllMovies();
                             <?= htmlspecialchars($movie['title']) ?>
                         </h3>
                         <span class="movie__type">Жанр: <?= htmlspecialchars($movie['genre']) ?></span>
+
                     </div>
                     <div class="movie__desc-wrap">
                         <div class="movie__desc" title="<?= htmlspecialchars($movie['description']) ?>">

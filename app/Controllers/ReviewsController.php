@@ -19,7 +19,7 @@ class ReviewsController
 
     public function getByMovieId($movieId)
     {
-        $conn = $this->reviews->getConnection(); // <-- Заменил model на reviews
+        $conn = $this->reviews->getConnection();
         $stmt = $conn->prepare("
         SELECT reviews.*, users.username 
         FROM reviews 
@@ -27,12 +27,16 @@ class ReviewsController
         WHERE reviews.movie_id = :movie_id 
         ORDER BY reviews.created_at DESC
     ");
-        $stmt->bindParam(':movie_id', $movieId, \PDO::PARAM_INT); // Добавил \ перед PDO
+        $stmt->bindParam(':movie_id', $movieId, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-
+    // для общего рейтинга
+    public function getAverageRating($movieId)
+    {
+        return $this->reviews->getAverageRatingByMovieId($movieId);
+    }
 
     public function create(array $data): bool
     {
@@ -57,4 +61,19 @@ class ReviewsController
     {
         return $this->reviews->delete($id);
     }
+    public function getById(int $id): ?array
+    {
+        return $this->reviews->getById($id);
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->reviews->delete($id);
+    }
+
+    public function update(int $id, int $rating, string $comment): bool
+    {
+        return $this->reviews->update($id, $rating, $comment);
+    }
+
 }

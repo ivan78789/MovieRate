@@ -45,6 +45,14 @@ $isAdmin = (bool) $user['is_admin'];
     <?php else: ?>
         <div class="profile-role" style="color:#888;">Вы обычный пользователь и можете просматривать фильмы и оставлять
             отзывы.</div>
+        <div class="my_comment-rating">
+            <div class="my_comment">
+                <p></p>
+            </div>
+            <div class="my_rating">
+                <span></span>
+            </div>
+        </div>
     <?php endif; ?>
     <div class="profile-links">
         <a href="/">На главную</a>

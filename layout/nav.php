@@ -5,6 +5,8 @@ if (isset($_POST['logout'])) {
     session_destroy();
     redirect_to('/');
 }
+// Это суперглобальная переменная PHP, которая возвращает текущий URL-путь, который пользователь открыл.
+$currentPage = $_SERVER['REQUEST_URI'];
 ?>
 
 <header class="header container">
@@ -32,13 +34,17 @@ if (isset($_POST['logout'])) {
                 </div>
             </div>
         </div>
-
-        <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="/Profile" class="header__link">Профиль</a>
-            <a href="/logout" class="header__link">Выйти</a>
-        <?php else: ?>
-            <a href="/signin " class="header__link">Войти</a>
-            <a href="/signup" class="header__link">Зарегистрироваться</a>
+        <!-- ЕСЛИ ПОЛЬЛЗОВАТЕЛЬ находится в профиле то из навигации уберется профиль и кнопка выйти  -->
+        <?php if ($currentPage !== '/profile'): ?>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <!-- Если пользователь ВОШЁЛ и НЕ в профиле -->
+                <a href="/profile" class="header__link">Профиль</a>
+                <a href="/logout" class="header__link">Выйти</a>
+            <?php else: ?>
+                <!-- Если пользователь НЕ вошёл -->
+                <a href="/signin" class="header__link">Войти</a>
+                <a href="/signup" class="header__link">Зарегистрироваться</a>
+            <?php endif; ?>
         <?php endif; ?>
     </nav>
 
