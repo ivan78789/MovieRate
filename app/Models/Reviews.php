@@ -30,8 +30,9 @@ class Reviews
         $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return round($result['average_rating'], 1);
+        return $result['average_rating'] !== null ? round($result['average_rating'], 1) : null;
     }
+
 
     public function getAll()
     {

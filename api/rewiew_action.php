@@ -1,27 +1,64 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . "/../../config/db.php"; // ← поправил путь, если у тебя он работает — не меняй
 
-if (!isset($_SESSION['user_id']) || !isset($_POST['review_id'])) {
-    header("Location: /");
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /signin");
     exit;
 }
 
-$reviewId = (int) $_POST['review_id'];
+$action = $_POST['action'] ?? '';
+$reviewId = (int) ($_POST['review_id'] ?? 0);
+$movieId = (int) ($_POST['movie_id'] ?? 0);
+$isAdmin = $_SESSION['is_admin'] ?? false;
 
-// Убедимся, что отзыв принадлежит текущему пользователю
-$stmt = $conn->prepare("SELECT * FROM reviews WHERE id = :id AND user_id = :user_id");
-$stmt->execute([
-    ':id' => $reviewId,
-    ':user_id' => $_SESSION['user_id']
-]);
-$review = $stmt->fetch();
-
-if ($review) {
-    $delete = $conn->prepare("DELETE FROM reviews WHERE id = :id");
-    $delete->bindParam(':id', $reviewId, PDO::PARAM_INT);
-    $delete->execute();
+if ($reviewId <= 0 || $movieId <= 0) {
+    die("Неверные данные");
 }
 
-header("Location: /movieView?id=" . $review['movie_id']);
-exit;
+try {
+    // Получаем автора отзыва
+    $stmt = $conn->prepare("SELECT user_id FROM reviews WHERE id = :id");
+    $stmt->bindParam(':id', $reviewId, PDO::PARAM_INT);
+    $stmt->execute();
+    $review = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$review) {
+        die("Отзыв не найден");
+    }
+
+    // Проверка прав: либо автор, либо админ
+    if ($review['user_id'] !== $_SESSION['user_id'] && !$isAdmin) {
+        die("Недостаточно прав");
+    }
+
+    if ($action === 'delete') {
+        $stmt = $conn->prepare("DELETE FROM reviews WHERE id = :id");
+        $stmt->bindParam(':id', $reviewId, PDO::PARAM_INT);
+        $stmt->execute();
+
+    } elseif ($action === 'edit') {
+        $comment = trim($_POST['comment'] ?? '');
+        $rating = (int) ($_POST['rating'] ?? 0);
+
+        if ($rating < 1 || $rating > 10 || empty($comment)) {
+            die("Неверный ввод");
+        }
+
+        $stmt = $conn->prepare("
+            UPDATE reviews 
+            SET comment = :comment, rating = :rating 
+            WHERE id = :id
+        ");
+        $stmt->bindParam(':comment', $comment);
+        $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $reviewId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    header("Location: /movieView?id=" . $movieId);
+    exit;
+
+} catch (PDOException $e) {
+    echo "Ошибка: " . $e->getMessage();
+}

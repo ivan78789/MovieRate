@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </ul>
     <?php endif; ?>
     <button type="submit" class="btn-primary">Зарегистрироваться</button>
-    <p class="auth-link">Уже есть аккаунт? <a href="/auth/sign-in.php">Войти</a></p>
+    <p class="auth-link">Уже есть аккаунт? <a href="/signin">Войти</a></p>
 </form>
 
 <script>

@@ -8,7 +8,7 @@ get('/movie', 'include/movie.php');
 get('/movieView', 'include/movie-view.php');
 post('/movieView', 'include/movie-view.php');
 // рудактирование и удаление отзхывов к фильмам
-get('/movieDelete', 'api/review/delete_rewiew.php');
+get('/movieDelete', 'api/review/delete_review.php');
 get('/movieEdite', 'api/review/edit_review.php');
 
 get('/RewiewAction', 'api/rewiew_action.php');
