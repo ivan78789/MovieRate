@@ -37,43 +37,20 @@ class ReviewsController
     {
         return $this->reviews->getAverageRatingByMovieId($movieId);
     }
-
-    public function create(array $data): bool
-    {
-        if (
-            empty($data['user_id']) ||
-            empty($data['movie_id']) ||
-            empty($data['comment']) ||
-            !isset($data['rating'])
-        ) {
-            return false;
-        }
-
-        $this->reviews->user_id = $data['user_id'];
-        $this->reviews->movie_id = $data['movie_id'];
-        $this->reviews->comment = $data['comment'];
-        $this->reviews->rating = $data['rating'];
-
-        return $this->reviews->create();
-    }
-
-    public function delete(int $id): bool
-    {
-        return $this->reviews->delete($id);
-    }
-    public function getById(int $id): ?array
+    public function getById($id)
     {
         return $this->reviews->getById($id);
     }
 
-    public function delete(int $id): bool
+    // В ReviewsController.php
+    public function delete($id, $userId): bool
     {
-        return $this->reviews->delete($id);
+        return $this->reviews->deleteById($id, $userId);
     }
 
-    public function update(int $id, int $rating, string $comment): bool
+    public function update($id, $userId, $comment, $rating): bool
     {
-        return $this->reviews->update($id, $rating, $comment);
+        return $this->reviews->updateById($id, $userId, $comment, $rating);
     }
 
 }

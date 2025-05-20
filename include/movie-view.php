@@ -85,17 +85,20 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-if (isset($_POST['delete_comment'])) {
-    $reviewIdToDelete = (int) $_POST['delete_comment'];
-    $review = $ReviewsController->getById($reviewIdToDelete);
+// Проверяем, оставлял ли уже отзыв этот пользователь для этого фильма
+$stmt = $conn->prepare("
+    SELECT COUNT(*) FROM reviews 
+    WHERE user_id = :user_id AND movie_id = :movie_id
+");
+$stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+$stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
+$stmt->execute();
+$reviewCount = $stmt->fetchColumn();
 
-    if ($review && $reviews['user_id'] == $_SESSION['user_id']) {
-        $ReviewsController->delete($reviewIdToDelete);
-        exit;
-    } else {
-        $errors['general'] = 'Вы нен можете уджалиьт этот  отзыв';
-    }
+if ($reviewCount > 0) {
+    $errors['general'] = 'Вы уже оставили отзыв для этого фильма.';
 }
+
 
 
 
@@ -133,13 +136,13 @@ require_once __DIR__ . '/../layout/nav.php';
                 <div class="movie-review-form__group">
                     <label for="rating">Оцените фильм</label>
                     <div class="movie-review-form__rating">
-                        <input type="range" id="rating" name="rating" min="0" max="10" value=""
-                            oninput="document.getElementById('rating-value').textContent = this.value"
+                        <input type="range" id="rating" name="rating" min="1" max="10" value="5"
+                            oninput="document.getElementById('rating-value').textContent = this.value "
                             class="movie-review-form__range">
                         <span id="rating-value">0</span>
                     </div>
                 </div>
-                <button type="submit" name="submit">Отправить отзыв</button>
+                <button class="rewies-btn" type="submit" name="submit">Отправить отзыв</button>
             </form>
             <div class="movies-comments">
                 <?php foreach ($reviews as $review): ?>
@@ -147,16 +150,85 @@ require_once __DIR__ . '/../layout/nav.php';
                         <div class="movies-comment_conclusion-text">
                             <?= htmlspecialchars($review['comment']) ?>
                         </div>
+                        <div class="line"></div>
                         <div class="movies-comment_conclusion-rating">
                             Оценка: <?= htmlspecialchars($review['rating']) ?><br>
-                            Автор: <?= htmlspecialchars($review['username']) ?>
+                            Автор: <?= htmlspecialchars($review['username']) ?><br>
                             Дата: <?= htmlspecialchars($review['created_at']) ?>
                         </div>
+
+                        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $review['user_id']): ?>
+                            <form method="post" action="/RewiewAction" onsubmit="return confirm('Удалить отзыв?');">
+                                <input type="hidden" name="review_id" value="<?= $review['id'] ?>">
+                                <button class="rewies-delete" type="submit">Удалить</button>
+
+                            </form>
+                        <?php endif; ?>
+
                     </div>
                 <?php endforeach; ?>
+
             </div>
         </div>
     </div>
 </section>
+
+
+<script>
+    document.querySelectorAll('.rewies-delete').forEach(button => {
+        button.addEventListener('click', () => {
+            const reviewId = button.dataset.reviewId;
+            if (!confirm('Вы точно хотите удалить отзыв?')) return;
+
+            fetch('/api/review_actions.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'delete',
+                    review_id: reviewId
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        button.closest('.movies-comment_conclusion').remove();
+                    } else {
+                        alert('Ошибка при удалении');
+                    }
+                });
+        });
+    });
+
+    document.querySelectorAll('.rewies-edit').forEach(button => {
+        button.addEventListener('click', () => {
+            const reviewId = button.dataset.reviewId;
+            const comment = prompt('Измените ваш отзыв:', button.dataset.comment);
+            const rating = prompt('Новая оценка (1-10):', '5');
+
+            if (!comment || !rating) return;
+
+            fetch('/api/review_actions.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'edit',
+                    review_id: reviewId,
+                    comment: comment,
+                    rating: rating
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); // или можно обновить текст вручную
+                    } else {
+                        alert('Ошибка при редактировании');
+                    }
+                });
+        });
+    });
+</script>
+
+
 
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>

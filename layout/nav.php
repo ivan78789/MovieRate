@@ -38,7 +38,7 @@ $currentPage = $_SERVER['REQUEST_URI'];
         <?php if ($currentPage !== '/profile'): ?>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <!-- Если пользователь ВОШЁЛ и НЕ в профиле -->
-                <a href="/profile" class="header__link">Профиль</a>
+                <a href="/Profile" class="header__link">Профиль</a>
                 <a href="/logout" class="header__link">Выйти</a>
             <?php else: ?>
                 <!-- Если пользователь НЕ вошёл -->

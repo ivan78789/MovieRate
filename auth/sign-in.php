@@ -182,4 +182,33 @@ if (isset($_POST['login'])) {
         font-size: 0.98rem;
         list-style: disc inside;
     }
+
+    @media screen (max-width: 600px) {
+        .auth-form {
+            max-width: 100px;
+            padding: 18px 6vw 18px 6vw;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+            gap: 12px;
+        }
+
+        .auth-title {
+            font-size: 1.18rem;
+        }
+
+        .form-group input {
+            font-size: 0.98rem;
+            padding: 9px 10px;
+        }
+
+        .btn-primary {
+            font-size: 1rem;
+            padding: 9px 0;
+        }
+
+        .auth-errors {
+            max-width: 98vw;
+            padding: 0 4vw;
+            font-size: 0.93rem;
+        }
+    }
 </style>

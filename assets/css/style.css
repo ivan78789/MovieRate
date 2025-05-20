@@ -1,39 +1,40 @@
 /* шрифты */
 @font-face {
   font-family: "Roboto";
-  src: url("/assets/fonts/roboto/Roboto-Regular.ttf") format("truetype");
+  src: url("../assets/fonts/roboto/Roboto-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 @font-face {
   font-family: "Roboto";
-  src: url("/assets/fonts/roboto/Roboto-Bold.ttf") format("truetype");
+  src: url("../assets/fonts/roboto/Roboto-Bold.ttf") format("truetype");
   font-weight: 700;
 }
 @font-face {
   font-family: "Roboto";
-  src: url("/assets/fonts/roboto/Roboto-Black.ttf") format("truetype");
+  src: url("../assets/fonts/roboto/Roboto-Black.ttf") format("truetype");
   font-weight: 800;
 }
 
 @font-face {
   font-family: "Open Sans";
-  src: url("/assets/fonts/opensans/OpenSans-Regular.ttf") format("truetype");
+  src: url("../assets/fonts/opensans/OpenSans-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 @font-face {
   font-family: "Open Sans";
-  src: url("/assets/fonts/opensans/OpenSans-SemiBold.ttf") format("truetype");
+  src: url("../assets/fonts/opensans/OpenSans-SemiBold.ttf") format("truetype");
   font-weight: 600;
 }
 @font-face {
   font-family: "Open Sans";
-  src: url("/assets/fonts/opensans/OpenSans-Bold.ttf") format("truetype");
+  src: url("../assets/fonts/opensans/OpenSans-Bold.ttf") format("truetype");
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Yellowtail";
-  src: url("/assets/fonts/yellowtail/Yellowtail-Regular.ttf") format("truetype");
+  src: url("..//assets/fonts/yellowtail/Yellowtail-Regular.ttf")
+    format("truetype");
   font-weight: 400;
 }
 
@@ -448,6 +449,13 @@
   margin-bottom: 8px;
 }
 
+.movie-view__rating {
+  font-size: 1.08rem;
+  color: #ffb800;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
 .movie-view__desc {
   font-size: 1.08rem;
   color: #444;
@@ -460,6 +468,13 @@
   box-shadow: 0 1px 4px rgba(79, 140, 255, 0.04);
 }
 
+.line {
+  display: flex;
+  height: 1px;
+  width: 100%;
+  color: #ccc;
+}
+
 .movie-view__meta {
   display: flex;
   flex-wrap: wrap;
@@ -469,22 +484,22 @@
   margin-top: 10px;
 }
 
-.movie-view__meta span {
+.movie-view__year,
+.movie-view__author,
+.movie-view__date {
   background: #f3f6fa;
   border-radius: 6px;
   padding: 4px 10px;
 }
 
-.movie-review-form {
-  width: 100%;
-  margin: 24px 0 0 0;
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 16px 18px;
-  box-shadow: 0 1px 4px rgba(79, 140, 255, 0.04);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.errors {
+  color: #d32f2f;
+  background: #fff0f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 0.98rem;
+  text-align: center;
 }
 
 .movie-review-form__group {
@@ -494,33 +509,8 @@
   margin-bottom: 10px;
 }
 
-.movie-review-form__group label {
-  font-size: 1rem;
-  color: #2356c7;
-  font-weight: 500;
-  margin-bottom: 2px;
-}
-
-.movie-review-form__input {
-  font-size: 1.15rem;
-  padding: 14px 12px;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 6px;
-  border: 1.5px solid #d1d5db;
-  background: #fff;
-  transition: border 0.2s;
-  margin-bottom: 2px;
-}
-
-.movie-review-form__input:focus {
-  border: 1.5px solid #4f8cff;
-  outline: none;
-  background: #f9fafb;
-}
-
 .movie-review-form__textarea {
-  font-size: 1rem;
+  font-size: 1.08rem;
   padding: 14px 12px;
   width: 100%;
   min-height: 60px;
@@ -550,31 +540,6 @@
   accent-color: #4f8cff;
 }
 
-.movie-review-form__rating span {
-  font-size: 1.1rem;
-  color: #2356c7;
-  min-width: 24px;
-  text-align: center;
-  font-weight: 600;
-}
-
-form button[type="submit"] {
-  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 0;
-  font-size: 1.08rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 8px;
-}
-
-form button[type="submit"]:hover {
-  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
-}
-
 .movies-comments {
   margin-top: 28px;
   background: #f9fafb;
@@ -598,6 +563,7 @@ form button[type="submit"]:hover {
   gap: 6px;
   transition: box-shadow 0.18s, border 0.18s;
 }
+
 .movies-comment_conclusion:hover {
   box-shadow: 0 4px 18px rgba(79, 140, 255, 0.13);
   border: 1.5px solid #4f8cff;
@@ -611,6 +577,38 @@ form button[type="submit"]:hover {
   word-break: break-word;
 }
 
+.review-actions {
+  display: flex;
+  gap: 10px;
+  margin: 8px 0 8px 0;
+}
+
+.rewies-edit,
+.rewies-delete {
+  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(79, 140, 255, 0.08);
+}
+
+.rewies-edit:hover {
+  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
+}
+
+.rewies-delete {
+  background: linear-gradient(90deg, #ff6b6b 0%, #d32f2f 100%);
+}
+
+.rewies-delete:hover {
+  background: linear-gradient(90deg, #d32f2f 0%, #ff6b6b 100%);
+}
+
 .movies-comment_conclusion-rating {
   font-size: 0.98rem;
   color: #4f8cff;
@@ -620,31 +618,19 @@ form button[type="submit"]:hover {
   align-items: center;
 }
 
-@media (max-width: 900px) {
-  .movie-view {
-    flex-direction: column;
-    align-items: center;
-    padding: 18px 6px 18px 6px;
-    gap: 18px;
-  }
-
-  .movie-view__poster {
-    max-width: 100%;
-  }
-
-  .movie-view__img {
-    height: 260px;
-  }
+.rewies-btn {
+  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(79, 140, 255, 0.08);
 }
-
 /* личный кабинет */
-
-body {
-  background: #f6f8fa;
-  font-family: "Open Sans", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
 
 .profile-container {
   max-width: 420px;
@@ -776,3 +762,6 @@ body {
     gap: 10px;
   }
 }
+
+/* панель регитсрации */
+/* вход сайнин */

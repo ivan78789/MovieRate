@@ -7,6 +7,12 @@ get('/', '/pages/index.php');
 get('/movie', 'include/movie.php');
 get('/movieView', 'include/movie-view.php');
 post('/movieView', 'include/movie-view.php');
+// рудактирование и удаление отзхывов к фильмам
+get('/movieDelete', 'api/review/delete_rewiew.php');
+get('/movieEdite', 'api/review/edit_review.php');
+
+get('/RewiewAction', 'api/rewiew_action.php');
+post('/RewiewAction', 'api/rewiew_action.php');
 
 // профиль
 get('/Profile', 'pages/profile/profile.php');

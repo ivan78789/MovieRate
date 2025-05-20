@@ -5,6 +5,7 @@ require_once __DIR__ . "/../config/db.php";
 use App\Models\Movie;
 use App\Controllers\MovieController;
 
+
 $MovieModel = new Movie($conn);
 $MovieController = new MovieController($MovieModel);
 
