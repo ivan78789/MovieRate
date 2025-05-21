@@ -118,6 +118,19 @@ class Reviews
         $stmt->bindParam(':user_id', $userId, \PDO::PARAM_INT);
         return $stmt->execute();
     }
+    public function getReviewsByUserId($userId): array
+    {
+        $stmt = $this->conn->prepare("
+        SELECT r.*, m.title AS movie_title 
+        FROM reviews r
+        JOIN movies m ON r.movie_id = m.id
+        WHERE r.user_id = :user_id
+        ORDER BY r.created_at DESC
+    ");
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
 
 }
 

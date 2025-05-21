@@ -87,5 +87,8 @@ if (DropDownArrow.classList.contains('rotate-back')){ // если есть кл�
 
 
   // для фильмов рейтинги и комментарии
-  const  Rating = document.getElementById
+  const  Rating = document.getElementById('rating');
+  const  Comment = document.getElementById('comment');
+
+  
 
