@@ -7,11 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+$userId = $_SESSION['user_id'];
 $isAdmin = $_SESSION['is_admin'] ?? false;
-if (!$isAdmin) {
-    echo "У вас нет прав на удаление этого фильма";
-    exit;
-}
 
 $movieId = $_GET['id'] ?? null;
 if (!$movieId) {
@@ -19,8 +16,8 @@ if (!$movieId) {
     exit;
 }
 
-// Проверяем, существует ли фильм
-$stmt = $conn->prepare("SELECT id FROM movies WHERE id = ?");
+// Получаем фильм
+$stmt = $conn->prepare("SELECT id, user_id FROM movies WHERE id = ?");
 $stmt->execute([$movieId]);
 $movie = $stmt->fetch();
 
@@ -29,7 +26,13 @@ if (!$movie) {
     exit;
 }
 
-// Удаляем фильм
+// Проверка прав: либо админ, либо автор фильма
+if (!$isAdmin && $movie['user_id'] != $userId) {
+    echo "У вас нет прав на удаление этого фильма";
+    exit;
+}
+
+// Удаление фильма
 $delStmt = $conn->prepare("DELETE FROM movies WHERE id = ?");
 $delStmt->execute([$movieId]);
 

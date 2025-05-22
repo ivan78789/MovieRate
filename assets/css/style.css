@@ -394,7 +394,6 @@
   text-overflow: ellipsis;
 }
 /* просмотр фильма оценка и комментарий  */
-
 .movie-view {
   max-width: 1100px;
   margin: 40px auto 0 auto;
@@ -407,6 +406,7 @@
   padding: 36px 32px 32px 32px;
   align-items: flex-start;
 }
+
 /* Кнопки редактирования и удаления */
 .edit-btn,
 .delete-btn {
@@ -530,10 +530,15 @@
   background: #e0e0e0;
   color: #555;
 }
+
+.modal-actions button[type="button"]:hover {
+  background: #c0c0c0;
+}
+
+/* Диапазон рейтинга в форме отзыва */
 .movie-review-form__range {
-  width: 60px;
-  min-width: 40px;
-  max-width: 80px;
+  width: 320px; /* убрал дублирование и оставил фиксированное значение */
+  accent-color: #4f8cff;
   padding: 6px 8px;
   font-size: 1rem;
   border-radius: 6px;
@@ -542,9 +547,6 @@
   margin-right: 8px;
   box-sizing: border-box;
   background-color: #f1ecec;
-}
-.modal-actions button[type="button"]:hover {
-  background: #c0c0c0;
 }
 
 .movie-view__poster {
@@ -612,7 +614,7 @@
   display: flex;
   height: 1px;
   width: 100%;
-  color: #ccc;
+  background-color: #ccc; /* исправлено с color на background-color */
 }
 
 .movie-view__meta {
@@ -673,11 +675,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.movie-review-form__range {
-  width: 320px;
-  accent-color: #4f8cff;
 }
 
 .movies-comments {
@@ -762,13 +759,6 @@
   background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 7px 18px;
-  font-size: 0.98rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.18s, box-shadow 0.18s;
-  box-shadow: 0 1px 4px rgba(79, 140, 255, 0.08);
 }
 /* личный кабинет */
 

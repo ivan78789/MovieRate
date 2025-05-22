@@ -13,11 +13,10 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 
 // Получаем данные пользователя (добавили avatar)
-$query = "SELECT username, is_admin, avatar FROM users WHERE id = ?";
+$query = "SELECT username, email, is_admin, avatar FROM users WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$userId]);
 $user = $stmt->fetch();
-
 if (!$user) {
     echo "Пользователь не найден";
     exit;
@@ -41,21 +40,26 @@ $userReviews = $reviewModel->getReviewsByUserId($userId);
 <div class="profile-main">
     <div class="profile-card">
         <img src="<?= htmlspecialchars($user['avatar'] ?? 'assets/img/avatar/default-avatar.png') ?>" alt="Аватар" class="avatar-img">
+
         <div class="profile-info">
             <h1 class="profile-title">Привет, <?= $username ?>!</h1>
-            <div class="profile-email"><span>Email:</span> <b><?= htmlspecialchars($users['email'] ?? '—') ?></b></div>
+            <div class="profile-email"><span>Email:</span> <?= htmlspecialchars($user['email'] ?? '—') ?></div>
+
+
             <form action="/UploadAvatar" method="post" enctype="multipart/form-data" class="avatar-form">
                 <label for="avatar">Сменить аватар:</label>
                 <input type="file" name="avatar" accept="image/*" required>
                 <button type="submit">Загрузить</button>
             </form>
             <form action="/ChangeProfile" method="post" class="profile-edit-form">
+ 
                 <label for="username">Имя:</label>
                 <input type="text" name="username" id="username" value="<?= $username ?>" required>
                 <label for="password">Новый пароль:</label>
                 <input type="password" name="password" id="password" placeholder="••••••••">
+
                 <label for="password">Подтвердите пароль:</label>
-                <input type="password" name="password" id="password" placeholder="••••••••">
+                <input type="password" name="password_confirm" id="password_confirm" placeholder="••••••••">
                 <button type="submit">Сохранить изменения</button>
             </form>
         </div>
@@ -65,8 +69,8 @@ $userReviews = $reviewModel->getReviewsByUserId($userId);
             <div class="profile-role admin">Вы — администратор</div>
             <div class="profile-actions">
                 <a href="/addmovie">Добавить фильм</a>
-                <a href="/viewmovie">Мои фильмы</a>
-                <a href="/editmovie">Редактировать фильмы</a>
+                <a href="/viewmovie">Все фильмы</a>
+                <a href="/myfilms">Мои фильмы</a>
             </div>
         <?php else: ?>
             <div class="profile-role">Обычный пользователь</div>

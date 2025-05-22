@@ -24,7 +24,7 @@ if (isset($_POST['login'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['username'] = $user['username'];
-
+            $_SESSION['is_admin'] = $user['is_admin']; 
             header('Location: /Profile?id=' . $user['id']);
             exit();
         } else {

@@ -1,53 +1,55 @@
-<?php
-require_once __DIR__ . '/../../../../config/db.php';
+<?php 
 session_start();
+require_once __DIR__ . '/../../../../config/db.php';
 
-// Проверка авторизации и прав администратора
-if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
+if (!isset($_SESSION['user_id'])) {
     header('Location: /signin');
     exit;
 }
 
-// Проверка корректности ID
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    echo "Некорректный ID фильма.";
-    exit;
+$userId = $_SESSION['user_id'];
+$isAdmin = $_SESSION['is_admin'] ?? 0;
+
+// Проверка ID
+$id = $_GET['id'] ?? null;
+if (!$id || !is_numeric($id)) {
+    die("ID фильма не передан или некорректен.");
 }
 
-$id = (int)$_GET['id']; // безопасное преобразование
-
-// Получение фильма
+// Получаем фильм
 $stmt = $conn->prepare("SELECT * FROM movies WHERE id = ?");
 $stmt->execute([$id]);
 $movie = $stmt->fetch();
 
 if (!$movie) {
-    echo "Фильм с указанным ID не найден.";
-    exit;
+    die("Фильм не найден.");
 }
 
+// Проверка прав: либо админ, либо автор
+if ($movie['user_id'] != $userId && !$isAdmin) {
+    die("У вас нет прав на редактирование этого фильма.");
+}
 ?>
-<h2>Редактировать фильм</h2>
+
+<!-- HTML и CSS как у тебя — всё ок -->
 
 <div class="edit-movie-container">
     <h2 class="edit-movie-title">Редактировать фильм</h2>
-<form action="/editmovieApi" method="post" enctype="multipart/form-data" class="edit-movie-form">
-
+    <form action="/editmovieApi" method="post" enctype="multipart/form-data" class="edit-movie-form">
         <input type="hidden" name="id" value="<?= $movie['id'] ?>">
         <input type="text" name="title" value="<?= htmlspecialchars($movie['title']) ?>" required>
         <textarea name="description" required><?= htmlspecialchars($movie['description']) ?></textarea>
         <input type="text" name="genre" value="<?= htmlspecialchars($movie['genre']) ?>" required>
         <input type="number" name="year" value="<?= $movie['year'] ?>" required>
-        <?php if (!empty($movie['poster'])): ?>
+        <?php if (!empty($movie['poster_path'])): ?>
             <p>Текущий постер:</p>
             <img src="<?= htmlspecialchars($movie['poster_path']) ?>" width="100" alt="Постер фильма">
-        <?php else: ?>
-            <p>Постер не загружен</p>
         <?php endif; ?>
         <input type="file" name="poster" accept="image/*">
         <button type="submit">Сохранить изменения</button>
     </form>
 </div>
+
 <style>
 .edit-movie-container {
     max-width: 480px;

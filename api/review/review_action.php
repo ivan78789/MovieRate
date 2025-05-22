@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . "/../config/db.php"; // ← поправил путь, если у тебя он работает — не меняй
+require_once __DIR__ . "/../../config/db.php"; 
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: /signin");
@@ -37,6 +37,10 @@ try {
         $stmt->bindParam(':id', $reviewId, PDO::PARAM_INT);
         $stmt->execute();
 
+        // После удаления редирект на страницу фильма
+        header("Location: /movieView?id=" . $movieId);
+        exit;
+
     } elseif ($action === 'edit') {
         $comment = trim($_POST['comment'] ?? '');
         $rating = (int) ($_POST['rating'] ?? 0);
@@ -54,8 +58,13 @@ try {
         $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
         $stmt->bindParam(':id', $reviewId, PDO::PARAM_INT);
         $stmt->execute();
+
+        // После редактирования редирект на страницу фильма
+        header("Location: /movieView?id=" . $movieId);
+        exit;
     }
 
+    // Если действие не delete и не edit — просто редирект на страницу фильма
     header("Location: /movieView?id=" . $movieId);
     exit;
 
