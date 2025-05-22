@@ -1,43 +1,50 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/router.php';
+
 // главная
 get('/', '/pages/index.php');
+
 // фильмы
 get('/movie', 'include/movie.php');
 get('/movieView', 'include/movie-view.php');
 post('/movieView', 'include/movie-view.php');
-// рудактирование и удаление отзхывов к фильмам
-get('/movieDelete', 'api/review/delete_review.php');
-get('/movieEdite', 'api/review/edit_review.php');
 
-get('/RewiewAction', 'api/rewiew_action.php');
-post('/RewiewAction', 'api/rewiew_action.php');
+// CRUD для фильмов (страницы админки)
+get('/addmovie',    'pages/profile/admin/movie/add.php');
+post('/addmovie',   'pages/profile/admin/movie/add.php');
+
+get('/editmovie',   'pages/profile/admin/movie/edit.php');   // показывает форму
+get('/deletemovie', 'pages/profile/admin/movie/delete.php');
+get('/viewmovie',   'pages/profile/admin/movie/view.php');
+
+// API-эндпоинты для CRUD (доступ по POST)
+post('/addmovieApi',      'api/movie/add_movie.php');
+post('/editmovieApi',     'api/movie/edit_movie.php');
+post('/deletemovieApi',   'api/movie/delete_movie.php');
+
+// (если нужен просмотр через POST — обычно не нужен)
+// post('/viewmovie', 'pages/profile/admin/movie/view.php');
+
+// отзывы к фильмам
+get('/movieDelete', 'api/review/delete_review.php');
+get('/movieEdit',   'api/review/edit_review.php');
+post('/reviewAction','api/review/review_action.php');
 
 // профиль
-get('/Profile', 'pages/profile/profile.php');
-get('/myreviews', 'pages/profile/my-reviews.php');
-get('/mymovies', 'pages/profile/my-movies.php');
+get('/profile',      'pages/profile/profile.php');
+get('/myreviews',    'pages/profile/my-reviews.php');
+get('/mymovies',     'pages/profile/my-movies.php');
+get('/uploadAvatar', 'pages/profile/upload_avatar.php');
+post('/uploadAvatar','pages/profile/upload_avatar.php');
 
-// для адмиина редактирование фильмов удаление и длобавление
-get('/addmovie', 'pages/profile/admin/add.php');
-get('/editmovie', 'pages/profile/admin/edit.php');
-get('/deletemovie', 'pages/profile/admin/delete.php');
-get('/viewmovie', 'pages/profile/admin/view.php');
-
-
-
-// регистрация
+// аутентификация
 get('/signup', 'auth/sign-up.php');
-post('/signup', 'auth/sign-up.php');
-
-// вход
+post('/signup','auth/sign-up.php');
 get('/signin', 'auth/sign-in.php');
-post('/signin', 'auth/sign-in.php');
-
-// выход
+post('/signin','auth/sign-in.php');
 get('/logout', 'auth/logout.php');
-post('/logout', 'auth/logout.php');
+post('/logout','auth/logout.php');
 
 // 404
 any('/404', 'pages/404.php');

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . "/../../config/db.php"; // ← поправил путь, если у тебя он работает — не меняй
+require_once __DIR__ . "/../config/db.php"; // ← поправил путь, если у тебя он работает — не меняй
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: /signin");
