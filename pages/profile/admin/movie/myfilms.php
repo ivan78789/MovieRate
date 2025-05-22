@@ -17,7 +17,6 @@ $myMovies = $stmt->fetchAll();
 
 
 
-<link rel="stylesheet" href="/path/to/my_movies.css">
 
 <div class="my-movies-container">
     <h2>Мои добавленные фильмы</h2>
@@ -27,7 +26,9 @@ $myMovies = $stmt->fetchAll();
     <?php else: ?>
         <?php foreach ($myMovies as $movie): ?>
             <div class="movie-card">
-                <a href="/movie.php?id=<?= (int)$movie['id'] ?>" class="movie-link" title="Перейти к фильму <?= htmlspecialchars($movie['title']) ?>">
+               <a href="/movie?id=18" class="movie-link" title="Перейти к фильму <?= htmlspecialchars($movie['title']) ?>">
+
+
                     <div class="movie-poster">
                         <img src="<?= htmlspecialchars($movie['poster_path']) ?>" alt="Постер <?= htmlspecialchars($movie['title']) ?>">
                     </div>
