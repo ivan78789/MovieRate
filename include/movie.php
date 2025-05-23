@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . "/../config/db.php";
 
 use App\Models\Movie;
@@ -41,7 +40,7 @@ $movies = $MovieController->getAllMovies();
                             <span class="movie__year-text">Год: <?= htmlspecialchars($movie['year']) ?></span>
                         </div>
                         <div class="created_movie">
-                            <span class="created_movie_text">Создал: <?= htmlspecialchars($movie['created_by']) ?></span>
+                            <span class="created_movie_text">Создал: <?= htmlspecialchars($movie['created_by'] ?? 'Админ')  ?></span>
                             <span class="created_movie_text">Дата: <?= htmlspecialchars($movie['created_at']) ?></span>
                         </div>
                     </div>

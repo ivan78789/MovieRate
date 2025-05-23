@@ -131,7 +131,7 @@ require_once __DIR__ . '/../layout/nav.php';
             <div class="movie-view__desc"><?= nl2br(htmlspecialchars($movie['description'])) ?></div>
             <div class="movie-view__meta">
                 <span class="movie-view__year">Год: <?= htmlspecialchars($movie['year']) ?></span>
-                <span class="movie-view__author">Создал: <?= htmlspecialchars($movie['created_by'] ?? $movie['created_by'] ?? $review['username'] ?? 'Неизвестно') ?></span>
+                <span class="movie-view__author">Создал: <?= htmlspecialchars($movie['created_by'] ?? $movie['created_by'] ?? $review['username'] ?? 'Админ') ?></span>
                 <span class="movie-view__date">Дата: <?= htmlspecialchars($movie['created_at']) ?></span>
             </div>
 

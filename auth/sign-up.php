@@ -1,5 +1,5 @@
-    <?php
-    session_start();
+<?php
+
     require_once __DIR__ . '/../config/db.php';
     //  объявляем метод сервера
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -52,7 +52,7 @@
                 $errors[] = 'Произошла ошибка при регистрации. Попробуйте позже.';
             }
         }
-    }
+    }   
     ?>
 
 
