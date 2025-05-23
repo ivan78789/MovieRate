@@ -55,6 +55,12 @@ class Movie
         $stmt = $this->conn->prepare("UPDATE movies SET title = ?, genre = ?, year = ?, description = ?, poster_path = ? WHERE id = ?");
         return $stmt->execute([$this->title, $this->genre, $this->year, $this->description, $this->poster_path, $id]);
     }
+public function getByGenre($genre)
+{
+    $stmt = $this->conn->prepare("SELECT * FROM movies WHERE genre = ? ORDER BY created_at DESC");
+    $stmt->execute([$genre]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 }
 

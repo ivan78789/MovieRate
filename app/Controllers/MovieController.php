@@ -36,4 +36,9 @@ class MovieController
     {
         return $this->movie->delete($id);
     }
+public function getMoviesByGenre($genre)
+{
+    return $this->movie->getByGenre($genre);
+}
+
 }
