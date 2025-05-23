@@ -24,6 +24,8 @@ get('/myfilms',   'pages/profile/admin/movie/myfilms.php');
 post('/addmovieApi',      'api/movie/add_movie.php');
 post('/editmovieApi',     'api/movie/edit_movie.php');
 post('/deletemovieApi',   'api/movie/delete_movie.php');    
+get('/searchmovies', 'api/search_movies.php');
+
 
 // (если нужен просмотр через POST — обычно не нужен)
 // post('/viewmovie', 'pages/profile/admin/movie/view.php');

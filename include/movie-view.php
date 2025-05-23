@@ -74,24 +74,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     }
 
     // Если ошибок нет, вставляем отзыв
-    // if (empty($errors)) {
-    //     try {
-    //         $stmt = $conn->prepare("
-    //             INSERT INTO reviews (movie_id, user_id, rating, comment, created_at)
-    //             VALUES (:movie_id, :user_id, :rating, :comment, NOW())
-    //         ");
-    //         $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
-    //         $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-    //         $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
-    //         $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
-    //         $stmt->execute();
+    if (empty($errors)) {
+        try {
+            $stmt = $conn->prepare("
+                INSERT INTO reviews (movie_id, user_id, rating, comment, created_at)
+                VALUES (:movie_id, :user_id, :rating, :comment, NOW())
+            ");
+            $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+            $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
+            $stmt->execute();
 
-    //         header("Location: /movieView?id=$movieId");
-    //         exit;
-    //     } catch (PDOException $e) {
-    //         $errors['general'] = 'Ошибка при добавлении отзыва. Попробуйте позже.';
-    //     }
-    // }
+            header("Location: /movieView?id=$movieId");
+            exit;
+        } catch (PDOException $e) {
+            $errors['general'] = 'Ошибка при добавлении отзыва. Попробуйте позже.';
+        }
+    }
 }
 // Считаем количество уникальных пользователей, оставивших отзывы для этого фильма
 $stmt = $conn->prepare("SELECT COUNT(DISTINCT user_id) FROM reviews WHERE movie_id = :movie_id");
@@ -99,7 +99,7 @@ $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
 $stmt->execute();
 $uniqueUsersCount = (int) $stmt->fetchColumn();
 
-if ($uniqueUsersCount < 10) {
+if ($uniqueUsersCount < 2 ) {
     $averageRating = null; // Или 0 или сообщение "Мало отзывов"
 } else {
     // Считаем средний рейтинг по всем отзывам
@@ -124,9 +124,9 @@ require_once __DIR__ . '/../layout/nav.php';
         <div class="movie-view__content">
             <h2 class="movie-view__title"><?= htmlspecialchars($movie['title']) ?></h2>
             <div class="movie-view__genre">Жанр: <span><?= htmlspecialchars($movie['genre']) ?></span></div>
-<div class="movie-view__rating">
-    Средняя оценка: <?= $averageRating !== null ? (int)$averageRating : '0'?>/10
-</div>
+              <div class="movie-view__rating">
+          Средняя оценка: <?= $averageRating !== null ? (int)$averageRating : '0'?>/10
+        </div>
 
             <div class="movie-view__desc"><?= nl2br(htmlspecialchars($movie['description'])) ?></div>
             <div class="movie-view__meta">
@@ -192,7 +192,8 @@ require_once __DIR__ . '/../layout/nav.php';
                             <form method="post" action="/reviewAction" onsubmit="return confirm('Удалить отзыв?');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="review_id" value="<?= (int)$review['id'] ?>">
-                                <input type="hidden" name="movie_id" value="<?= urlencode($movieId) ?>">
+                                <input type="hidden" name="movie_id" value="<?= (int)$movieId ?>">
+                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                                 <button class="delete-btn" type="submit">Удалить</button>
                             </form>
                         <?php endif; ?>
@@ -226,6 +227,8 @@ require_once __DIR__ . '/../layout/nav.php';
 </div>
 
 <script>
+    const  Rating = document.getElementById('rating');
+  const  Comment = document.getElementById('comment');
 const editButtons = document.querySelectorAll('.edit-btn');
 const modal = document.getElementById('editModal');
 const modalReviewId = document.getElementById('modalReviewId');

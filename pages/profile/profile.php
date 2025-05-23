@@ -223,7 +223,7 @@ $userReviews = $reviewModel->getReviewsByUserId($userId);
     transition: background 0.2s, color 0.2s;
 }
 .profile-actions a:hover {
-    background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
+    background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);   
     color: #fff;
     text-decoration: underline;
 }

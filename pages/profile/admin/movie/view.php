@@ -1,93 +1,70 @@
 <?php
 session_start();
 require_once __DIR__ . '/../../../../config/db.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header('Location: /signin');
-    exit;
-}
-
+$titleName = 'Все фильмы';
 $isAdmin = $_SESSION['is_admin'] ?? 0;
-
-// Фильтрация по жанру
-$genre = $_GET['genre'] ?? null;
-
-if ($genre && $genre !== 'Все') {
-    $stmt = $conn->prepare("SELECT * FROM movies WHERE genre = ? ORDER BY created_at DESC");
-    $stmt->execute([$genre]);
-} else {
-    $stmt = $conn->query("SELECT * FROM movies ORDER BY created_at DESC");
-}
-
-$movies = $stmt->fetchAll();
+$activeGenre = $_GET['genre'] ?? 'Все';
 ?>
+<?php require_once "./layout/header.php"; ?>
+<?php require_once "./layout/nav.php"; ?>
+<h1>Все фильмы<?= $activeGenre && $activeGenre !== 'Все' ? ' - ' . htmlspecialchars($activeGenre) : '' ?></h1>
+<a class="back" href="/">Назад</a>
 
+<div id="movie-list" class="movie-grid"></div>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const genre = <?= json_encode($activeGenre) ?>;
+    let url = '/searchmovies?';
+    if (genre && genre !== 'Все') {
+        url += `genre=${encodeURIComponent(genre)}`;
+    }
 
-
-
-
-
-<h1>Все фильмы<?= $genre && $genre !== 'Все' ? ' - ' . htmlspecialchars($genre) : '' ?></h1>
-<a href="/">Назад</a>
-
-<div class="movie-grid">
-    <?php foreach ($movies as $movie): ?>
-        <div class="movie-card">
-            <?php if (!empty($movie['poster_path'])): ?>
-                <img src="<?= htmlspecialchars($movie['poster_path']) ?>" alt="Постер">
-            <?php endif; ?>
-
-            <div class="movie-title"><?= htmlspecialchars($movie['title']) ?></div>
-            <div class="movie-genre"><?= htmlspecialchars($movie['genre']) ?> (<?= $movie['year'] ?>)</div>
-
-            <?php if ($isAdmin): ?>
-                <div class="movie-actions">
-                    <a href="/editmovie?id=<?= $movie['id'] ?>">Редактировать</a>
-                    <a href="/deletemovie?id=<?= $movie['id'] ?>" onclick="return confirm('Удалить фильм?');">Удалить</a>
-                </div>
-            <?php endif; ?>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-    <style>
-.movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 24px;
-}
-.movie-card {
-    background: white;
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.movie-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 12px;
-}
-.movie-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 6px;
-}
-.movie-genre {
-    color: #555;
-    font-size: 0.9rem;
-    margin-bottom: 8px;
-}
-.movie-actions a {
-    display: inline-block;
-    margin-right: 8px;
-    color: #2563eb;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-.movie-actions a:hover {
-    text-decoration: underline;
-}
-
-    </style>
+    fetch(url)
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            return res.json();
+        })
+        .then(data => {
+            const container = document.getElementById('movie-list');
+            if (!container) {
+                console.error('Контейнер #movie-list не найден');
+                return;
+            }
+            container.innerHTML = data.length === 0 ? '<p>Фильмы не найдены</p>' : '';
+            data.forEach(movie => {
+                const el = document.createElement('div');
+                el.classList.add('movie-card');
+                el.innerHTML = `
+                    <a href="/movieView?id=${movie.id}" class="movie-card__link">
+                        <div class="movie-card__image">
+                            <img src="${movie.poster_path || '/assets/img/placeholder.jpg'}" alt="${movie.title}">
+                        </div>
+                        <div class="movie-card__content">
+                            <h3 class="movie-card__title">${movie.title}</h3>
+                            <p class="movie-card__genre">Жанр: ${movie.genre || 'Не указан'}</p>
+                            <p class="movie-card__year">Год: ${movie.year || 'Не указан'}</p>
+                            <p class="movie-card__rating">Рейтинг: ${movie.rating || 'Не указан'}</p>
+                            <p class="movie-card__desc" title="${movie.description || ''}">
+                                ${movie.description ? movie.description.substring(0, 100) + '...' : 'Описание отсутствует'}
+                            </p>
+                            ${<?= $isAdmin ? 'true' : 'false' ?> ? `
+                                <div class="movie-actions">
+                                    <a href="/editmovie?id=${movie.id}">Редактировать</a>
+                                    <a href="/deletemovie?id=${movie.id}" onclick="return confirm('Удалить фильм?');">Удалить</a>
+                                </div>
+                            ` : ''}
+                        </a>`;
+                container.appendChild(el);
+            });
+        })
+        .catch(err => {
+            console.error('Ошибка запроса:', err);
+            const container = document.getElementById('movie-list');
+            if (container) container.innerHTML = '<p>Ошибка при загрузке фильмов</p>';
+        });
+});
+</script>
+<?php require_once "./layout/footer.php"; ?>
+<style>
+</style>
