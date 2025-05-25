@@ -1,83 +1,56 @@
-<footer class="footer">
-    <div class="footer__container">
-        <div class="footer__logo">
-            <img src="/assets/img/svg/logo.svg" alt="MovieRate" height="32">
-            <span>MovieRate</span>
-        </div>
-        <div class="footer__info">
-            <span>&copy; <?= date('Y') ?> MovieRate. Все права защищены.</span>
-            <span>Проект для учебных целей</span>
-        </div>
+    <div class="footer-bg">
+        <footer class="footer footer__container">
+            <div class="footer__content">
+                <h2>Пользователям и партнёрам</h2>
+                <div class="footer__nav">
+
+                    <a href="#">Пользовательское соглашение</a>
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Пользовательское соглашение</a>
+                    <a href="/logaut"> Удаление аккаунта</a>
+                </div>
+            </div>
+
+            <div class="footer__content">
+                <h2>О нас</h2>
+                <div class="footer__nav">
+                    <a href="#">Контакты для СМИ</a>
+                    <a href="#">Добавить подкаст</a>
+                    <a href="#">Сотрудничество</a>
+                </div>
+            </div>
+
+            <div class="footer__content">
+                <h2>На устройствах</h2>
+                <div class="footer__nav">
+                    <a href="#">Телевизоры и медиаплееры</a>
+                    <a href="#">Мобильные устройства</a>
+                    <a href="#">Компьютер</a>
+                    <a href="#">Подключить телевизор</a>
+                </div>
+            </div>
+            <div class="footer-info">
+                <div class="footer__content">
+                    <h2> Поддержка пользователей</h2>
+                    <div class="footer__nav">
+                        <a href="#">+1 099 9201 92</a>
+                        <a href="#">qwerty112@gmail.com</a>
+                    </div>
+                    <div class="footer__nav">
+                        <a href="#">Все контакты</a>
+                        <a href="#">Вопросы и ответы</a>
+                        <a href="#">Мы в соцсетях</a>
+                    </div>
         <div class="footer__links">
             <a href="/" class="footer__link">Главная</a>
             <a href="/about" class="footer__link">О проекте</a>
             <a href="https://github.com/" target="_blank" class="footer__link">GitHub</a>
         </div>
+                </div>
+            </div>
+        </footer>
     </div>
-</footer>
-<script src="/assets/js/app.js"></script>
-</body>
+    <script src="/assets/js/app.js"></script>
+    <style>
 
-</html>
-<style>
-    .footer {
-        background: #222c3a;
-        color: #fff;
-        padding: 28px 0 18px 0;
-        margin-top: 40px;
-        font-size: 1rem;
-    }
-
-    .footer__container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        padding: 0 18px;
-    }
-
-    .footer__logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 1.18rem;
-        font-weight: 600;
-        color: #4f8cff;
-    }
-
-    .footer__info {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        font-size: 0.98rem;
-        color: #b0b0b0;
-    }
-
-    .footer__links {
-        display: flex;
-        gap: 18px;
-    }
-
-    .footer__link {
-        color: #fff;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: color 0.2s;
-    }
-
-    .footer__link:hover {
-        color: #4f8cff;
-        text-decoration: underline;
-    }
-
-    @media (max-width: 700px) {
-        .footer__container {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-    }
-</style>
+    </style>

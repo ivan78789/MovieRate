@@ -1,34 +1,83 @@
-/* цвета и шрифты */
-:root {
-  --color-primary: #274c5b;
-  --color-accent: #ffa858;
-  --color-white: #ffffff;
-  --color-white-transparent: #ffffffe5;
-
-  --color-green: #7eb693;
-  --color-dark-gray: #525c60;
-  --color-light-gray: #f9f8f8;
-
-  --color-gray-100: #fafafa;
-  --color-gray-700: #d5d5d5;
-  --color-gray-800: #dbdbdb;
-  --color-gray-900: #dcd3d7;
-
-  --color-pink: #e1d4db;
-  --color-rose: #d3cbcf;
-  --color-yellow: #efd372;
-  --color-soft-yellow: #fff4cd;
-  --color-blue: #37b5de;
-  --color-navy: #335b6b;
-  --color-mint: #eff6f1;
-
-  --color-disabled: #c4c4c4;
-  --color-text-muted: #ababab;
-
-  --font-main: "Open Sans", sans-serif;
-  --font-heading: "Roboto", sans-serif;
-  --font-decorative: "Yellowtail", cursive;
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/font-main/inter/Inter-Regular.woff2") format("woff2"),
+    url("../fonts/font-main/inter/Inter-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/font-main/inter/Inter-Bold.woff2") format("woff2"),
+    url("../fonts/font-main/inter/Inter-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("../fonts/font-main/Ninito/Nunito-Regular.woff2") format("woff2"),
+    url("../fonts/font-main/Ninito/Nunito-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("../fonts/font-main/Ninito/Nunito-Bold.woff2") format("woff2"),
+    url("../fonts/font-main/Ninito/Nunito-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("../fonts/font-heading/Cinzel/Cinzel-Bold.woff2") format("woff2"),
+    url("../fonts/font-heading/Cinzel/Cinzel-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/font-heading/Playfair-Display/PlayfairDisplay-Bold.woff2")
+      format("woff2"),
+    url("../fonts/font-heading/Playfair-Display/PlayfairDisplay-Bold.woff")
+      format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --fz-main: clamp(1rem, 0.818rem + 0.91vw, 1.5rem);
+  --fz-title: clamp(1.2rem, 1rem + 1vw, 2rem);
+  --fz-small: clamp(0.9rem, 0.8rem + 0.5vw, 1.1rem);
+  /* Цвета */
+  --color-bg: #fff;
+  --color-bg-dark: #181c24;
+  --color-primary: #4f8cff;
+  --color-primary-dark: #2356c7;
+  --color-accent: #38bdf8;
+  --color-success: #3dbf5f;
+  --color-danger: #d32f2f;
+  --color-warning: #ffb800;
+  --color-text-main: #222;
+  --color-text-light: #fff;
+  --color-text-muted: #888;
+  --color-border: #d1d5db;
+  --color-card: #f9fafb;
+  --color-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  /* Шрифты */
+  --font-main: "Abhaya Libre", sans-serif;
+  --font-heading: "Playfair Display", , serif;
+}
+
+html::-webkit-scrollbar {
+  display: none; /* для Chrome, Safari, Opera */
+}
+/* monsteratt */
+
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -96,21 +145,25 @@
   flex-wrap: wrap;
 }
 
-.header__link {
+.header__link,
+.header__link--dropdown {
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: #fff;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 1.08rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: none;
+  transition: all 0.2s;
 }
 
+.header__link.active,
+.header__link--dropdown.active,
 .header__link:hover,
-.header__link.active {
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.2);
-  transform: scale(1.05);
+.header__link--dropdown:hover {
+  color: var(--color-accent);
+  background: rgba(56, 189, 248, 0.18);
+  text-shadow: 0 2px 8px rgba(56, 189, 248, 0.1);
 }
 
 .header__dropdown-wrap {
@@ -146,7 +199,7 @@
   display: none;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 10px 0;
+  /* padding: 10px 0; */
 }
 
 .genres-dropdown.active {
@@ -265,6 +318,7 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease;
+  background-color: #f0f0f0;
 }
 
 .header__icon:hover {
@@ -274,7 +328,7 @@
 .avatar-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   border-radius: 50%;
 }
@@ -286,7 +340,7 @@
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 6px;
-  min-width: 160px;
+  min-width: 200px;
   display: none;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -309,6 +363,36 @@
 .header__dropdown-link:hover {
   background-color: #38bdf8;
   color: #fff;
+}
+
+body {
+  font-family: var(--font-main);
+  font-size: 1rem;
+  color: var(--color-text-main);
+  background: var(--color-bg);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+p,
+span,
+li,
+label,
+input,
+textarea,
+select,
+button,
+a {
+  font-family: var(--font-main);
 }
 
 @media (min-width: 768px) {
@@ -337,6 +421,192 @@
   }
 }
 
+.movie-section {
+  margin-bottom: 60px;
+}
+
+.genre-title h2 {
+  font-size: 24px;
+  margin: 20px 0 10px;
+  text-align: center;
+}
+
+.genre-title h2 a {
+  color: #2b2b2b;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.genre-title h2 a:hover {
+  color: #3dbf5f;
+}
+
+/* ГЛАВНАЯ */
+.banner {
+  position: relative;
+  width: 100%;
+  height: 600px; /* увеличил высоту */
+  background: url("/assets/img/poster_movies/john-wiek_poster.png") no-repeat
+    center center/cover;
+  color: #e0e7ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  margin-top: -20px;
+}
+
+.banner-content {
+  background: rgba(10, 30, 64, 0.92);
+  padding: 28px 28px 24px 28px;
+  max-width: 650px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(10, 30, 64, 0.18);
+}
+
+.banner-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.02em;
+}
+
+.banner-rating {
+  font-size: 20px;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.banner-content-desc {
+  margin-top: 24px;
+  max-width: 600px;
+  background: rgba(10, 30, 64, 0.9) !important;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(10, 30, 64, 0.18);
+}
+
+.banner-desc {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: #f3f6fa !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.banner-details {
+  display: inline-block;
+  margin-top: 18px;
+  background-color: #1e40af;
+  color: #e0e7ff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.6);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.banner-details:hover {
+  background-color: #3b82f6;
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.8);
+}
+.genre-title {
+  margin: 40px 0 20px;
+}
+/* Swiper кастомизация */
+.swiper {
+  padding: 20px;
+}
+
+.swiper-slide {
+  width: 230px !important;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-body h2 {
+  font-size: 1.18rem;
+  margin: 0;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.card-body p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.card-body a,
+.movie-actions a,
+.btn,
+.imperia_btn,
+.profile-actions a,
+.reviews-btn {
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0.75rem 1.63rem;
+  line-height: 1.2;
+  border-radius: 0.63rem;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
+  color: #fff !important;
+  box-shadow: 0 0.13rem 0.5rem rgba(79, 140, 255, 0.1);
+  border: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.card-body a:hover,
+.movie-actions a:hover,
+.btn:hover,
+.imperia_btn:hover,
+.profile-actions a:hover,
+.reviews-btn:hover {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 100%
+  );
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(35, 86, 199, 0.18);
+}
+
+/* Все фильмы */
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -393,29 +663,6 @@
   text-decoration: underline;
   color: #1e88e5;
 }
-@media (max-width: 700px) {
-  .footer__container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .basket_nav {
-    padding: 3px 6px;
-    gap: 6px;
-  }
-  .basket img {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-/* вход */
-
-/* для фильмов верстка */
-
-/* просмотр фильма оценка и комментарий  */
-
-/* все фильмы */
 
 #movie-list {
   display: grid;
@@ -503,7 +750,10 @@
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
-
+.all_movie-view {
+  font-weight: 600;
+  font-size: 20px;
+}
 .movie-actions a:hover {
   background-color: #0056b3;
 }
@@ -517,6 +767,7 @@
   background-color: #a71d2a;
 }
 .back {
+  margin-left: 60px;
   display: inline-block;
   margin-bottom: 20px;
   padding: 8px 18px;
@@ -530,6 +781,376 @@
 .back:hover {
   background-color: #495057;
   color: #fff;
+}
+
+/* просмотр фильмов */
+
+.movie-view {
+  max-width: 1100px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 36px 32px 32px 32px;
+  align-items: flex-start;
+}
+
+/* Кнопки редактирования и удаления */
+.edit-btn,
+.delete-btn {
+  cursor: pointer;
+  padding: 8px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-btn {
+  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
+  color: #fff;
+  margin-right: 10px;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
+  box-shadow: 0 4px 16px rgba(35, 86, 199, 0.6);
+}
+
+.delete-btn {
+  background: linear-gradient(90deg, #ff6b6b 0%, #d32f2f 100%);
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(90deg, #d32f2f 0%, #ff6b6b 100%);
+  box-shadow: 0 4px 16px rgba(211, 47, 47, 0.6);
+}
+
+/* Модальное окно */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 30px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Заголовки и подписи */
+.modal-content label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+/* Текстовое поле */
+.modal-content textarea,
+.modal-content input[type="number"] {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  border: 1.8px solid #cbd5e1;
+  border-radius: 8px;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.modal-content textarea:focus,
+.modal-content input[type="number"]:focus {
+  outline: none;
+  border-color: #4f8cff;
+  background-color: #f0f5ff;
+}
+
+/* Кнопки модального окна */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  cursor: pointer;
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-actions button[type="submit"] {
+  background: #2356c7;
+  color: #fff;
+}
+
+.modal-actions button[type="submit"]:hover {
+  background: #4f8cff;
+  box-shadow: 0 4px 12px rgba(79, 140, 255, 0.6);
+}
+
+.modal-actions button[type="button"] {
+  background: #e0e0e0;
+  color: #555;
+}
+
+.modal-actions button[type="button"]:hover {
+  background: #c0c0c0;
+}
+
+/* Диапазон рейтинга в форме отзыва */
+.movie-review-form__range {
+  width: 320px;
+  accent-color: #4f8cff;
+  padding: 6px 8px;
+  font-size: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  margin-left: 8px;
+  margin-right: 8px;
+  box-sizing: border-box;
+  background-color: #f1ecec;
+}
+
+.movie-view__poster {
+  flex: 0 0 320px;
+  max-width: 320px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.movie-view__img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(79, 140, 255, 0.1);
+  background: #f3f6fa;
+}
+
+.movie-view__content {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.movie-view__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2356c7;
+  margin: 0 0 8px 0;
+  word-break: break-word;
+}
+
+.movie-view__genre {
+  font-size: 1.08rem;
+  color: #4f8cff;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.movie-view__rating {
+  font-size: 1.08rem;
+  color: #ffb800;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.movie-view__desc {
+  font-size: 1.08rem;
+  color: #444;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 14px 16px;
+  min-height: 60px;
+  max-height: 180px;
+  overflow-y: auto;
+  box-shadow: 0 1px 4px rgba(79, 140, 255, 0.04);
+}
+
+.line {
+  display: flex;
+  height: 1px;
+  width: 100%;
+  background-color: #ccc;
+}
+
+.movie-view__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 0.98rem;
+  color: #888;
+  margin-top: 10px;
+}
+
+.movie-view__year,
+.movie-view__author,
+.movie-view__date {
+  background: #f3f6fa;
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.errors {
+  color: #d32f2f;
+  background: #fff0f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 0.98rem;
+  text-align: center;
+}
+
+.movie-review-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.movie-review-form__textarea {
+  font-size: 1.08rem;
+  padding: 14px 12px;
+  width: 100%;
+  min-height: 60px;
+  max-width: 700px;
+  border-radius: 6px;
+  border: 1.5px solid #d1d5db;
+  background: #fff;
+  transition: border 0.2s;
+  margin-bottom: 2px;
+  resize: vertical;
+}
+
+.movie-review-form__textarea:focus {
+  border: 1.5px solid #4f8cff;
+  outline: none;
+  background: #f9fafb;
+}
+
+.movie-review-form__rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.movies-comments {
+  margin-top: 28px;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 22px 22px 10px 22px;
+  box-shadow: 0 2px 12px rgba(79, 140, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.movies-comment_conclusion {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(79, 140, 255, 0.06);
+  border: 1.5px solid #e5e7eb;
+  padding: 14px 18px 10px 18px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: box-shadow 0.18s, border 0.18s;
+}
+
+.movies-comment_conclusion:hover {
+  box-shadow: 0 4px 18px rgba(79, 140, 255, 0.13);
+  border: 1.5px solid #4f8cff;
+}
+
+.movies-comment_conclusion-text {
+  font-size: 1.08rem;
+  color: #222;
+  margin-bottom: 4px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.review-actions {
+  display: flex;
+  gap: 10px;
+  margin: 8px 0 8px 0;
+}
+
+.rewies-edit,
+.rewies-delete {
+  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(79, 140, 255, 0.08);
+}
+
+.rewies-edit:hover {
+  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
+}
+
+.rewies-delete {
+  background: linear-gradient(90deg, #ff6b6b 0%, #d32f2f 100%);
+}
+
+.rewies-delete:hover {
+  background: linear-gradient(90deg, #d32f2f 0%, #ff6b6b 100%);
+}
+
+.movies-comment_conclusion-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.98rem;
+  color: #4f8cff;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: start;
+}
+
+.rewies-btn {
+  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
+  color: #fff;
+  border: none;
 }
 
 /* личный кабинет */
@@ -559,7 +1180,7 @@
   height: 110px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #38bdf8;
+  /* border: 3px solid #38bdf8; */
   background: #f3f6fa;
   margin-bottom: 10px;
 }
@@ -842,10 +1463,18 @@
 }
 
 .profile-links a:hover {
-  color: #4f8cff;
   text-decoration: underline;
 }
-
+.reviews-btn {
+  background: #4f8cff;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-left: 8px;
+  transition: background 0.2s, color 0.2s;
+}
 /* ФУТЕР */
 .footer {
   background: #222c3a;
@@ -901,5 +1530,234 @@
   }
 }
 
+.imperiaa {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+
+.imperiaa h2 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #2356c7;
+  margin: 0 0 2px 0;
+  text-align: center;
+  width: 100%;
+}
+
+.imperiaa p {
+  color: #444;
+  font-size: 1rem;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.imperiaa img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.imperia_btn {
+  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 0;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(79, 140, 255, 0.08);
+  width: 100%;
+  max-width: 160px;
+}
+
+.imperia_btn h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tw {
+  color: rgb(12, 12, 12);
+  font-family: Abhaya Libre ExtraBold;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.footer-bg {
+  background: #e8e8e8;
+  padding: 28px 0 18px 0;
+  margin-top: 40px;
+  font-size: 1rem;
+}
+
+.footer {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.footer__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer__container h2 {
+  color: #908b8c;
+  font-weight: bold;
+}
+
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer__nav a {
+  color: #908b8c;
+}
+
+.footer__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: transparent;
+}
+
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.18rem;
+  font-weight: 300;
+  color: #4f8cff;
+}
+
+.footer__logo img {
+  max-width: 24px;
+  max-height: 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.footer__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.98rem;
+}
+
+.footer__links {
+  display: flex;
+  gap: 18px;
+}
+
+.footer__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.footer__link:hover {
+  color: #4f8cff;
+  text-decoration: underline;
+}
+
+.footer_footer__container2 {
+  align-items: center;
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+  width: 562;
+  height: 197;
+  top: 22px;
+  left: 410px;
+  gap: 20px;
+  border-radius: 8px;
+}
+
+.h2 {
+  font-family: Abhaya Libre ExtraBold;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: black;
+  align-items: center;
+  display: flex;
+}
+
+.p {
+  font-family: Abhaya Libre ExtraBold;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #4d4d4d;
+}
+
+.btn {
+  color: #e8e8e8;
+  padding: 10px 20px;
+  border-radius: 120px;
+  border: 1.5px solid #f16214;
+  background: #f16214;
+  width: 284;
+  height: 65;
+  top: 117px;
+  left: 534px;
+  border-radius: 8px;
+  padding: 10px;
+  gap: 10px;
+}
+
+.action {
+  color: red;
+  font-family: Abhaya Libre ExtraBold;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  display: flex;
+}
+
+.hfg {
+  width: 468;
+  height: 24;
+  top: 195px;
+  left: 498px;
+  color: black;
+  font-family: Abhaya Libre ExtraBold;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+@media (max-width: 700px) {
+  .footer__container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .card {
+    max-width: 100%;
+    width: 100%;
+    min-height: 0;
+    padding: 10px 4px 10px 4px;
+  }
+  .card img {
+    width: 100%;
+    height: 180px;
+    max-width: 100%;
+  }
+}
 /* панель регитсрации */
 /* вход сайнин */

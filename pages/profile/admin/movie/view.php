@@ -7,10 +7,10 @@ $activeGenre = $_GET['genre'] ?? 'Все';
 ?>
 <?php require_once "./layout/header.php"; ?>
 <?php require_once "./layout/nav.php"; ?>
-<h1>Все фильмы<?= $activeGenre && $activeGenre !== 'Все' ? ' - ' . htmlspecialchars($activeGenre) : '' ?></h1>
-<a class="back" href="/">Назад</a>
+<h1 class="all_movie-view container">Все фильмы<?= $activeGenre && $activeGenre !== 'Все' ? ' - ' . htmlspecialchars($activeGenre) : '' ?></h1>
+<a class="back " href="/">Назад</a>
 
-<div id="movie-list" class="movie-grid"></div>
+<div id="movie-list" class="movie-grid container"></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const el = document.createElement('div');
                 el.classList.add('movie-card');
                 el.innerHTML = `
-                    <a href="/movieView?id=${movie.id}" class="movie-card__link">
+                    <a href="/movieView?id=${movie.id}" class="movie-card__link container">
                         <div class="movie-card__image">
                             <img src="${movie.poster_path || '/assets/img/placeholder.jpg'}" alt="${movie.title}">
                         </div>
@@ -67,4 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <?php require_once "./layout/footer.php"; ?>
 <style>
+    .all_movie-view{
+        margin-top: 40px;
+        margin-bottom: 10px;
+        font-size: 24px;
+        color: #333;
+    }
 </style>

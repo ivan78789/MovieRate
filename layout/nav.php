@@ -1,11 +1,23 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . '/../config/function.php';
 require_once __DIR__ . '/../config/db.php';
+
+// Корректно получаем данные пользователя для навигации
+$user = null;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $conn->prepare("SELECT username, email, is_admin, avatar FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
 if (isset($_POST['logout'])) {
     session_destroy();
     redirect_to('/');
 }
+
 $currentPage = $_SERVER['REQUEST_URI'];
 ?>
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -50,7 +62,6 @@ $currentPage = $_SERVER['REQUEST_URI'];
           </div>
         </div>
 
-        <a href="/viewmovie" class="header__link <?= (strpos($_SERVER['REQUEST_URI'], '/viewmovie') !== false) ? 'active' : ''; ?>">Фильмы</a>
       </nav>
 
       <div class="header__search">
@@ -279,7 +290,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-<style>
-
-</style>
 
