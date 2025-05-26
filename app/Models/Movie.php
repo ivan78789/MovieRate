@@ -16,6 +16,8 @@ class Movie
     public $poster_path;
     public $created_by;
     public $created_at;
+    public $trailer_url;
+
 
     public function __construct($db)
     {
@@ -41,7 +43,7 @@ class Movie
 
     public function create()
     {
-        $stmt = $this->conn->prepare("INSERT INTO movies (title, genre, year, description, poster_path, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        $stmt = $this->conn->prepare("INSERT INTO movies (title, genre, year, description, poster_path, created_by, trailer_url, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
         return $stmt->execute([$this->title, $this->genre, $this->year, $this->description, $this->poster_path, $this->created_by]);
     }
 

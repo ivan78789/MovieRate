@@ -128,7 +128,7 @@ if ($genreFilter) {
 <?php endforeach; ?>
 
 
-<!-- Исправление стрелок свайпера для страницы жанра -->
+
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {

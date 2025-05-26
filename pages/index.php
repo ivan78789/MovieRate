@@ -29,9 +29,11 @@ if ($genre && $genre !== 'Все') {
 
 <?php require_once __DIR__ . '/../layout/header.php'; ?>
 <?php require_once __DIR__ . '/../layout/nav.php'; ?>
-<main>
-    <div id="movie-list" class="movie-grid"></div>
-</main>
+
+ <main>
+  <div id="movie-list" class="movie-grid1"></div>
+</main> 
+
 
 <?php require_once __DIR__ . '/../include/movie.php' ?>
 

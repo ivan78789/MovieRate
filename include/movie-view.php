@@ -19,7 +19,7 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// Проверка выбран ли фильм и существует ли он
+// Проверка фильма
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     echo "Фильм не выбран";
     exit;
@@ -28,41 +28,36 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $movieId = (int) $_GET['id'];
 $movie = $MovieController->getById($movieId);
 
-if ($movie === null) {
+if (!$movie) {
     echo "Фильм не найден";
     exit;
 }
 
-// Получаем средний рейтинг
-$averageRating = $ReviewsController->getAverageRating($movieId);
-
-// Обработка отправки отзыва
 $errors = [];
 
+// Обработка формы
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    // Проверка CSRF токена
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die('Ошибка безопасности. Попробуйте снова.');
     }
 
-    // Проверка авторизации
     if (!isset($_SESSION['user_id'])) {
         header("Location: /signin");
         exit;
     }
 
-    // Проверка, не оставлял ли пользователь уже отзыв
+    // Проверка на повторный отзыв
     $stmt = $conn->prepare("SELECT COUNT(*) FROM reviews WHERE user_id = :user_id AND movie_id = :movie_id");
-    $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-    $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
-    $stmt->execute();
+    $stmt->execute([
+        ':user_id' => $_SESSION['user_id'],
+        ':movie_id' => $movieId
+    ]);
     $reviewCount = $stmt->fetchColumn();
 
     if ($reviewCount > 0) {
         $errors['general'] = 'Вы уже оставили отзыв для этого фильма.';
     }
 
-    // Получаем данные из формы
     $comment = trim($_POST['comment'] ?? '');
     $rating = (int) ($_POST['rating'] ?? 0);
 
@@ -73,19 +68,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $errors['general'] = 'Пожалуйста, заполните комментарий!';
     }
 
-    // Если ошибок нет, вставляем отзыв
     if (empty($errors)) {
         try {
             $stmt = $conn->prepare("
                 INSERT INTO reviews (movie_id, user_id, rating, comment, created_at)
                 VALUES (:movie_id, :user_id, :rating, :comment, NOW())
             ");
-            $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
-            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
-            $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
-            $stmt->execute();
-
+            $stmt->execute([
+                ':movie_id' => $movieId,
+                ':user_id' => $_SESSION['user_id'],
+                ':rating' => $rating,
+                ':comment' => $comment
+            ]);
             header("Location: /movieView?id=$movieId");
             exit;
         } catch (PDOException $e) {
@@ -93,23 +87,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         }
     }
 }
-// Считаем количество уникальных пользователей, оставивших отзывы для этого фильма
+
+// Уникальные пользователи и средняя оценка
 $stmt = $conn->prepare("SELECT COUNT(DISTINCT user_id) FROM reviews WHERE movie_id = :movie_id");
-$stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
-$stmt->execute();
+$stmt->execute([':movie_id' => $movieId]);
 $uniqueUsersCount = (int) $stmt->fetchColumn();
 
 $averageRating = null;
-
 if ($uniqueUsersCount >= 2) {
-    // Считаем средний рейтинг по всем отзывам
     $stmt = $conn->prepare("SELECT AVG(rating) FROM reviews WHERE movie_id = :movie_id");
-    $stmt->bindParam(':movie_id', $movieId, PDO::PARAM_INT);
-    $stmt->execute();
+    $stmt->execute([':movie_id' => $movieId]);
     $averageRating = round($stmt->fetchColumn(), 2);
 }
 
-// Получаем все отзывы
 $reviews = $ReviewsController->getByMovieId($movieId);
 
 require_once __DIR__ . '/../layout/header.php';
@@ -119,44 +109,44 @@ require_once __DIR__ . '/../layout/nav.php';
 <section>
     <div class="movie-view">
         <div class="movie-view__poster">
-            <img src="<?= htmlspecialchars($movie['poster_path']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="movie-view__img">
+<?php if (!empty($movie['poster_path'])): ?>
+    <img src="<?= htmlspecialchars($movie['poster_path']) ?>" alt="<?= htmlspecialchars($movie['title'] ?? '') ?>" class="movie-view__img">
+<?php endif; ?>
+
         </div>
         <div class="movie-view__content">
             <h2 class="movie-view__title"><?= htmlspecialchars($movie['title']) ?></h2>
             <div class="movie-view__genre">Жанр: <span><?= htmlspecialchars($movie['genre']) ?></span></div>
-<div class="movie-view__rating">
-    Средняя оценка: <?= $averageRating !== null ? $averageRating . '/10' : '' ?>
-</div>
-
-
+            <div class="movie-view__rating">
+                Средняя оценка: <?= $averageRating !== null ? $averageRating . '/10' : 'Оценок пока нет' ?>
+            </div>
             <div class="movie-view__desc"><?= nl2br(htmlspecialchars($movie['description'])) ?></div>
             <div class="movie-view__meta">
                 <span class="movie-view__year">Год: <?= htmlspecialchars($movie['year']) ?></span>
-                <span class="movie-view__author">Создал: <?= htmlspecialchars($movie['created_by'] ?? $movie['created_by'] ?? $review['username'] ?? 'Админ') ?></span>
+                <span class="movie-view__author">Создал: <?= htmlspecialchars($movie['created_by'] ?? 'Админ') ?></span>
                 <span class="movie-view__date">Дата: <?= htmlspecialchars($movie['created_at']) ?></span>
             </div>
-
             <form method="post" action="/movieView?id=<?= urlencode($movieId) ?>" class="movie-review-form" novalidate>
                 <?php if (!empty($errors['general'])): ?>
                     <div class="errors"><?= htmlspecialchars($errors['general']) ?></div>
                 <?php endif; ?>
 
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
 
                 <div class="movie-review-form__group">
                     <label for="comment">Ваш отзыв</label>
                     <textarea name="comment" id="comment" placeholder="Кратко опишите впечатление" maxlength="200" required
-                        class="movie-review-form__textarea"><?= htmlspecialchars($_POST['comment'] ?? '') ?></textarea>
+                              class="movie-review-form__textarea"><?= htmlspecialchars($_POST['comment'] ?? '') ?></textarea>
                 </div>
 
                 <div class="movie-review-form__group">
                     <label for="rating">Оцените фильм</label>
                     <div class="movie-review-form__rating">
                         <input type="number" id="rating" name="rating" min="1" max="10"
-                            oninput="document.getElementById('rating-value').textContent = this.value"
-                            class="movie-review-form__range"
-                            value="<?= isset($_POST['rating']) ? (int)$_POST['rating'] : 1 ?>">
-                        <span id="rating-value"><?= isset($_POST['rating']) ? (int)$_POST['rating'] : 1 ?></span>
+                               oninput="document.getElementById('rating-value').textContent = this.value"
+                               class="movie-review-form__range"
+                               value="<?= (int)($_POST['rating'] ?? 1) ?>">
+                        <span id="rating-value"><?= (int)($_POST['rating'] ?? 1) ?></span>
                     </div>
                 </div>
 
@@ -171,22 +161,16 @@ require_once __DIR__ . '/../layout/nav.php';
                         </div>
                         <div class="line"></div>
                         <div class="movies-comment_conclusion-rating">
-                            <div>
-                                Оценка: <?= htmlspecialchars($review['rating']) ?>
-                            </div>
-                            <div>
-                                Автор: <?= htmlspecialchars($review['username']) ?>
-                            </div>
-                            <div>
-                                Дата: <?= htmlspecialchars($review['created_at']) ?>
-                            </div>
+                            <div>Оценка: <?= htmlspecialchars($review['rating']) ?></div>
+                            <div>Автор: <?= htmlspecialchars($review['username']) ?></div>
+                            <div>Дата: <?= htmlspecialchars($review['created_at']) ?></div>
                         </div>
 
                         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $review['user_id']): ?>
-                            <button class="edit-btn" data-review-id="<?= (int)$review['id'] ?>"
-                                data-comment="<?= htmlspecialchars($review['comment'], ENT_QUOTES) ?>"
-                                data-rating="<?= (int)$review['rating'] ?>"
-                                type="button">
+                            <button class="edit-btn"
+                                    data-review-id="<?= (int)$review['id'] ?>"
+                                    data-comment="<?= htmlspecialchars($review['comment'], ENT_QUOTES) ?>"
+                                    data-rating="<?= (int)$review['rating'] ?>">
                                 Редактировать
                             </button>
 
@@ -194,7 +178,7 @@ require_once __DIR__ . '/../layout/nav.php';
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="review_id" value="<?= (int)$review['id'] ?>">
                                 <input type="hidden" name="movie_id" value="<?= (int)$movieId ?>">
-                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
+                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                                 <button class="delete-btn" type="submit">Удалить</button>
                             </form>
                         <?php endif; ?>
@@ -202,16 +186,18 @@ require_once __DIR__ . '/../layout/nav.php';
                 <?php endforeach; ?>
             </div>
         </div>
+        
     </div>
+    
 </section>
 
-<!-- Модальное окно для редактирования -->
+<!-- Модальное окно -->
 <div id="editModal" class="modal" style="display:none;">
     <div class="modal-content">
         <form method="post" action="/reviewAction" novalidate>
             <input type="hidden" name="action" value="edit">
-            <input type="hidden" name="review_id" id="modalReviewId" value="">
-            <input type="hidden" name="movie_id" value="<?= urlencode($movieId) ?>">
+            <input type="hidden" name="review_id" id="modalReviewId">
+            <input type="hidden" name="movie_id" value="<?= (int)$movieId ?>">
 
             <label for="modalComment">Комментарий</label>
             <textarea name="comment" id="modalComment" required></textarea>
@@ -228,46 +214,39 @@ require_once __DIR__ . '/../layout/nav.php';
 </div>
 
 <script>
-    const  Rating = document.getElementById('rating');
-  const  Comment = document.getElementById('comment');
-const editButtons = document.querySelectorAll('.edit-btn');
-const modal = document.getElementById('editModal');
-const modalReviewId = document.getElementById('modalReviewId');
-const modalComment = document.getElementById('modalComment');
-const modalRating = document.getElementById('modalRating');
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const modal = document.getElementById('editModal');
+    const modalReviewId = document.getElementById('modalReviewId');
+    const modalComment = document.getElementById('modalComment');
+    const modalRating = document.getElementById('modalRating');
 
-editButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        modalReviewId.value = btn.dataset.reviewId;
-        modalComment.value = btn.dataset.comment;
-        modalRating.value = btn.dataset.rating;
-        modal.style.display = 'flex';
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modalReviewId.value = btn.dataset.reviewId;
+            modalComment.value = btn.dataset.comment;
+            modalRating.value = btn.dataset.rating;
+            modal.style.display = 'flex';
+        });
     });
-});
 
-function closeModal() {
-    modal.style.display = 'none';
-    modalReviewId.value = '';
-    modalComment.value = '';
-    modalRating.value = '';
-}
+    function closeModal() {
+        modal.style.display = 'none';
+        modalReviewId.value = '';
+        modalComment.value = '';
+        modalRating.value = '';
+    }
 
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-});
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
 
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-});
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
 
-// При загрузке страницы закрываем модалку и очищаем форму
-window.addEventListener('load', () => {
-    closeModal();
-});
-
+    window.addEventListener('load', () => {
+        closeModal();
+    });
 </script>
 
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>
-<style>
-
-</style>

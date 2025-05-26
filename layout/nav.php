@@ -43,7 +43,7 @@ $currentPage = $_SERVER['REQUEST_URI'];
           <div class="header__dropdown genres-dropdown" id="genres-dropdown">
             <a href="/viewmovie" class="header__dropdown-btn <?= ($activeGenre === 'Все') ? 'active' : ''; ?>">Все</a>
             <a href="/viewmovie?genre=Драма" class="header__dropdown-btn <?= ($activeGenre === 'Драма') ? 'active' : ''; ?>">Драма</a>
-            <a href="/viewmovie?genre=Криминал" class="header__dropdown-btn <?= ($activeGenre === 'Криминал') ? 'active' : ''; ?>">Криминал</a>
+
             <a href="/viewmovie?genre=Комедия" class="header__dropdown-btn <?= ($activeGenre === 'Комедия') ? 'active' : ''; ?>">Комедия</a>
             <a href="/viewmovie?genre=Фэнтези" class="header__dropdown-btn <?= ($activeGenre === 'Фэнтези') ? 'active' : ''; ?>">Фэнтези</a>
             <a href="/viewmovie?genre=Ужасы" class="header__dropdown-btn <?= ($activeGenre === 'Ужасы') ? 'active' : ''; ?>">Ужасы</a>

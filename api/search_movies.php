@@ -16,20 +16,27 @@ if ($query) {
     $sql .= " AND title LIKE ?";
     $params[] = "%$query%";
 }
+
 if ($genre && $genre !== 'Все') {
-    $sql .= " AND genre = ?";
+    // Предполагается, что жанры хранятся в БД в виде CSV (например: "Драма,Комедия,Триллер")
+    // Используем FIND_IN_SET для точного поиска жанра
+    $sql .= " AND FIND_IN_SET(?, genre) > 0";
     $params[] = $genre;
 }
+
 if ($year) {
     $sql .= " AND year = ?";
     $params[] = $year;
 }
+
 if ($rating) {
     $sql .= " AND rating >= ?";
     $params[] = $rating;
 }
+
 if ($featured) {
-    $sql .= " AND rating >= 8"; // Например, избранные фильмы — с рейтингом 8+
+    // Для избранных фильмов рейтинг должен быть >= 8
+    $sql .= " AND rating >= 8";
 }
 
 $sql .= " ORDER BY created_at DESC";
@@ -38,12 +45,13 @@ try {
     if (!isset($conn) || !$conn) {
         throw new Exception('Подключение к базе данных не инициализировано');
     }
+
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
     $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     echo json_encode($movies);
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Ошибка сервера: ' . $e->getMessage()]);
 }
-?>

@@ -14,6 +14,8 @@ post('/ChangeProfile', 'pages/profile/change_profile.php');
 // CRUD для фильмов (страницы админки)
 get('/addmovie',    'pages/profile/admin/movie/add.php');
 post('/addmovie',   'pages/profile/admin/movie/add.php');
+get('/searchView',    'include/search-view.php');
+post('/searchView',   'include/search-view.php');
 
 get('/editmovie',   'pages/profile/admin/movie/edit.php');   // показывает форму
 get('/deletemovie', 'pages/profile/admin/movie/delete.php');

@@ -52,9 +52,9 @@ $userReviews = $reviewModel->getReviewsByUserId($userId);
     <input type="file" id="avatar" name="avatar" accept="image/*" autocomplete="off" required>
     <button type="submit">Загрузить</button>
 </form>
-                <input type="file" name="avatar" accept="image/*" required>
+                <!-- <input type="file" name="avatar" accept="image/*" required>
                 <button type="submit">Загрузить</button>
-            </form>
+            </form> -->
             <form action="/ChangeProfile" method="post" class="profile-edit-form">
  
                 <label for="username">Имя:</label>
@@ -103,7 +103,6 @@ $userReviews = $reviewModel->getReviewsByUserId($userId);
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
-<style>
-</style>
+
 
 <?php require_once "./layout/footer.php"; ?>

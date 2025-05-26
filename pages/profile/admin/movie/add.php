@@ -89,8 +89,14 @@ $stmt->execute([$title, $description, $year, $genre, $posterPath, $_SESSION['use
         </ul>
     </div>
 <?php endif; ?>
+<?php $titleName = 'Добавление фильма'?>
+<?php require_once __DIR__ . '/../../../../layout/header.php'?>
+<?php require_once __DIR__ . '/../../../../layout/nav.php'?>
+
+<a class="back " href="/Profile">Назад</a>
 
 <div class="add-movie-container">
+  
     <h2 class="add-movie-title">Добавить фильм</h2>
     <div class="link_add-movie">   
         <a href="/" class="add-movie-back">Вернуться на главную</a>
@@ -116,96 +122,8 @@ $stmt->execute([$title, $description, $year, $genre, $posterPath, $_SESSION['use
         <button type="submit">Добавить</button>
     </form>
 </div>
-
-<!-- CSS стили ты можешь оставить без изменений -->
 <style>
-    .add-movie-container {
-  max-width: 480px;
-  margin: 48px auto 0 auto;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(56,189,248,0.08);
-  padding: 36px 32px 28px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.add-movie-title {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2356c7;
-  margin-bottom: 18px;
-}
-.link_add-movie {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-.add-movie-back {
-  color: #38bdf8;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
-  border-radius: 6px;
-  padding: 6px 12px;
-}
-.add-movie-back:hover {
-  color: #2356c7;
-  background: #f3f6fa;
-}
-.add-movie-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.add-movie-form label {
-  font-size: 1rem;
-  color: #2356c7;
-  font-weight: 500;
-  margin-bottom: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.add-movie-form input[type="text"],
-.add-movie-form input[type="number"],
-.add-movie-form input[type="file"],
-.add-movie-form textarea {
-  padding: 8px 10px;
-  background: #f9fafb;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 1rem;
-  margin-top: 2px;
-}
-.add-movie-form textarea {
-  min-height: 70px;
-  resize: vertical;
-}
-.add-movie-form button {
-  background: linear-gradient(90deg, #4f8cff 0%, #2356c7 100%);
-  color: white;
-  border: none;
-  padding: 10px 0;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.08rem;
-  margin-top: 8px;
-  transition: background 0.2s;
-}
-.add-movie-form button:hover {
-  background: linear-gradient(90deg, #2356c7 0%, #4f8cff 100%);
-}
-@media (max-width: 600px) {
-  .add-movie-container {
-    padding: 16px 6px 18px 6px;
+  .back{
+    margin-top: 20px;
   }
-  .add-movie-title {
-    font-size: 1.1rem;
-  }
-}
 </style>
